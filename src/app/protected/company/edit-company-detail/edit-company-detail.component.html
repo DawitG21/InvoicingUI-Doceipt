@@ -1,0 +1,72 @@
+<div class="main-content">
+    <div class="content-toolbar">
+
+        <button mat-button color="primary" (click)="goBack()">
+            <mat-icon aria-hidden="false" aria-label="keyboard_arrow_left icon">keyboard_arrow_left</mat-icon>Edit
+            Company Detail
+        </button>
+
+        <button mat-button color="primary" class="float-right ml-1" (click)="save()">
+            Save
+        </button>
+
+    </div>
+</div>
+
+<form id="f" class="mt-4" *ngIf="model" [formGroup]="form">
+    <mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+
+    <mat-form-field appearance="outline" class="col-sm-4">
+        <mat-label>Tin</mat-label>
+        <input matInput formControlName="tin" placeholder="TIN or Registered Company #" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-sm-4">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" placeholder="e.g contact@company.com..." />
+        <mat-hint align="start">separated by comma, semicolon, or space</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-sm-4">
+        <mat-label>Website</mat-label>
+        <input matInput formControlName="website" placeholder="e.g http://company.com" />
+    </mat-form-field>
+
+    <ngx-intl-tel-input [cssClass]="'custom'" [preferredCountries]="preferredCountries" [enableAutoCountrySelect]="true"
+        [enablePlaceholder]="true" [searchCountryFlag]="true"
+        [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]" [selectFirstCountry]="false"
+        [selectedCountryISO]="CountryISO.Ethiopia" maxLength="15"
+        [phoneValidation]="true" [separateDialCode]="separateDialCode" name="phone" [(ngModel)]="phone"
+        [ngModelOptions]="{standalone: true}">
+    </ngx-intl-tel-input>
+
+    <mat-form-field appearance="outline" class="col-sm-6 mt-3">
+        <mat-label>Address 1</mat-label>
+        <input matInput formControlName="addressLine1" placeholder="Phone number" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-sm-6 mt-3">
+        <mat-label>Address 2</mat-label>
+        <input matInput formControlName="addressLine2" placeholder="Phone number" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-sm-4">
+        <mat-label>Country</mat-label>
+        <mat-select formControlName="country">
+            <mat-option *ngFor="let country of countries" [value]="country.value">
+                {{country.name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-sm-4">
+        <mat-label>State</mat-label>
+        <input matInput formControlName="state" placeholder="Oromia" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-sm-4">
+        <mat-label>City</mat-label>
+        <input matInput formControlName="city" placeholder="Addis Ababa" />
+    </mat-form-field>
+
+</form>

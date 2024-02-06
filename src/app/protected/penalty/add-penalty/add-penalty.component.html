@@ -1,0 +1,95 @@
+<div class="main-content">
+    <div class="content-toolbar">
+
+        <button mat-button color="primary" (click)="goBack()">
+            <mat-icon aria-hidden="false" aria-label="keyboard_arrow_left icon">keyboard_arrow_left</mat-icon>New
+            Penalty
+        </button>
+
+        <button mat-button color="primary" class="float-right ml-1" [disabled]="saveStatus" (click)="save()">
+            Save
+        </button>
+
+    </div>
+</div>
+
+<mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+<form id="f" class="mt-4" *ngIf="model" [formGroup]="form">
+
+    <mat-form-field appearance="outline" class="col-sm-6">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" required placeholder="e.g Penalty 100 Daily" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-sm-6">
+        <mat-label>Search Financial Period</mat-label>
+        <input type="text" placeholder="Financial Period" matInput [formControl]="financialPeriodName"
+            [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let fp of financialPeriods" [value]="fp.name">
+                {{fp.name}}
+            </mat-option>
+        </mat-autocomplete>
+        <mat-error *ngIf="financialPeriodName!.invalid">Financial period donesn't exist</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-sm-6">
+        <mat-label>Rate</mat-label>
+        <input type="number" matInput formControlName="rate" required placeholder="e.g 100" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-sm-6">
+        <mat-label>Rate Type</mat-label>
+        <mat-select formControlName="rateType">
+            <mat-option value="daily">
+                Daily
+            </mat-option>
+            <mat-option value="fixed">
+                Fixed
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <div class="col-sm-6">
+        <mat-slide-toggle formControlName="isPercentRate" matTooltip="N.B Turning this on implies Rate is a percentage" class="ml-3" color="primary">
+            Is Percentage
+        </mat-slide-toggle>
+    </div>
+    <br>
+
+    <mat-form-field appearance="outline" class="col-sm-12">
+        <mat-label>Description</mat-label>
+        <textarea matInput placeholder="A brief description of the Penalty." formControlName="description"></textarea>
+    </mat-form-field>
+
+    <fieldset id="email" class="mt-3">
+        <mat-label class="ml-3">Peanlty Range (Optional)</mat-label>
+        <button mat-button color="primary" class="float-right btn btn-sm btn-clear mr-2" (click)="addRanges()">
+            <mat-icon>add</mat-icon>&nbsp;Add Range
+        </button>
+
+        <ng-container *ngFor="let range of ranges; let i =index">
+            <div class="row ml-1 mt-4">
+
+                <div class="col-sm-1 p-3">
+                    <mat-icon class="float-right cursor-pointer" color="primary" title="Cancel"
+                        (click)="deleteRange(i)">
+                        close</mat-icon>
+                </div>
+
+                <mat-form-field appearance="outline" class="col-sm-5">
+                    <mat-label class="ml-3">After Duration (Days)</mat-label>
+                    <input matInput type="number" placeholder="e.g 2" [(ngModel)]="range.afterDuration"
+                        [ngModelOptions]="{standalone: true}">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="col-sm-4">
+                    <mat-label>Rate</mat-label>
+                    <input matInput type="number" placeholder="e.g 20" [(ngModel)]="range.rate"
+                        [ngModelOptions]="{standalone: true}">
+                </mat-form-field>
+
+            </div>
+        </ng-container>
+    </fieldset>
+</form>

@@ -1,0 +1,260 @@
+<div class="main-content">
+  <div class="content-toolbar">
+    <p class="toolbar-title">Report</p>
+
+    <div class="float-right">
+      <!-- <i (click)='firstClicked($event)' title="First Page" class="ml-3 cursor-pointer material-icons">first_page</i>
+                  <i (click)='previousClicked($event)' title="Previous Page" class="ml-3 cursor-pointer material-icons">chevron_left</i>
+                  <i (click)='nextClicked($event)' title="Next Page" class="ml-3 cursor-pointer material-icons">chevron_right</i>
+                  <i (click)='lastClicked($event)' title="Last Page" class="ml-3 cursor-pointer material-icons">last_page</i>
+            
+                  <i (click)='printClicked($event)' title="Print" class="ml-5 cursor-pointer material-icons">print</i>
+                  <i (click)='downloadClicked($event)' title="Download" class="ml-3 cursor-pointer material-icons">save</i> -->
+
+
+      <!-- <i title="Open Report" class="ml-5 toolbar-icon material-icons">folder_open</i>
+      <i title="Filter" class="ml-3 toolbar-icon material-icons">filter_list</i> -->
+    </div>
+
+  </div>
+</div>
+<!-- <div class="clearfix pt-2">
+  <p class="lead float-left">Reports</p>
+</div> -->
+
+<div class="main-content">
+  <div class="position-relative">
+    <div class="mt-1 content-scroll">
+      <div class="float-left col-sm-3 report-filter mt-3">
+        <mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+
+        <mat-card class="mat-elevation-z0 h-100 p-0">
+
+          <mat-card-header>
+            <mat-card-title>
+              <button mat-icon-button matSuffix (click)="loadReport()">
+                Generate
+                <mat-icon class="toolbar-icon">send</mat-icon>
+              </button>
+            </mat-card-title>
+            <!-- <mat-card-subtitle>Select report</mat-card-subtitle> -->
+          </mat-card-header>
+          <mat-card-content>
+
+            <mat-form-field appearance="outline" class="col-sm-12">
+              <mat-label>Select report</mat-label>
+              <mat-select>
+                <mat-option *ngFor="let report of roleReports" [value]="report.code" (click)="selectReportType(report)">
+                  <ng-container>
+                    {{report.name}}
+                  </ng-container>
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <form id="f" class="mt-4" [formGroup]="form">
+
+              <ng-container *ngIf="selectedReport">
+                <ng-container *ngFor="let rFlag of selectedReport.reportFlags; let i = index">
+                  <ng-container *ngIf="rFlag.flag.dataType === 'guid'">
+
+                    <ng-container *ngIf="rFlag.name.includes('branch')">
+                      <mat-form-field appearance="outline" class="col-sm-12">
+                        <mat-label>Branch</mat-label>
+                        <mat-select [formControl]="branchesControl" multiple>
+                          <mat-select-trigger>
+                            {{branchesControl.value ? branchesControl.value[0]?.name : ''}}
+                            <span *ngIf="branchesControl.value?.length > 1">
+                              (+{{branchesControl.value.length - 1}} {{branchesControl.value?.length === 2 ? 'other' :
+                              'others'}})
+                            </span>
+                          </mat-select-trigger>
+                          <mat-option *ngFor="let branch of branches" [value]="branch">{{branch.name}}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </ng-container>
+
+                    <ng-container *ngIf="rFlag.name.includes('paymentCycle')">
+                      <mat-form-field appearance="outline" class="col-sm-12">
+                        <mat-label>Payment Cycle</mat-label>
+                        <mat-select [formControl]="paymentCyclesControl" multiple>
+                          <mat-select-trigger>
+                            {{paymentCyclesControl.value ? paymentCyclesControl.value[0]?.name : ''}}
+                            <span *ngIf="paymentCyclesControl.value?.length > 1">
+                              (+{{paymentCyclesControl.value.length - 1}} {{paymentCyclesControl.value?.length === 2 ?
+                              'other' : 'others'}})
+                            </span>
+                          </mat-select-trigger>
+                          <mat-option *ngFor="let paymentCycle of paymentCycles" [value]="paymentCycle">
+                            {{paymentCycle.name}}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </ng-container>
+
+                    <ng-container *ngIf="rFlag.name.includes('service')">
+                      <mat-form-field appearance="outline" class="col-sm-12">
+                        <mat-label>Service</mat-label>
+                        <mat-select [formControl]="servicesControl" multiple>
+                          <mat-select-trigger>
+                            {{servicesControl.value ? servicesControl.value[0]?.name : ''}}
+                            <span *ngIf="servicesControl.value?.length > 1">
+                              (+{{servicesControl.value.length - 1}} {{servicesControl.value?.length === 2 ?
+                              'other' : 'others'}})
+                            </span>
+                          </mat-select-trigger>
+                          <mat-option *ngFor="let service of services" [value]="service">
+                            {{service.name}}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </ng-container>
+
+                    <ng-container *ngIf="rFlag.name.includes('financialPeriod')">
+                      <mat-form-field appearance="outline" class="col-sm-12">
+                        <mat-label>Financial period</mat-label>
+                        <input type="text" placeholder="financial period" matInput [formControl]="financialPeriodName"
+                          [matAutocomplete]="auto">
+                        <mat-autocomplete #auto="matAutocomplete">
+                          <mat-option *ngFor="let fp of financialPeriods" [value]="fp.name">
+                            {{fp.name}}
+                          </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngIf="financialPeriodName!.invalid">Financial period donesn't exist</mat-error>
+                      </mat-form-field>
+                    </ng-container>
+
+                    <ng-container *ngIf="rFlag.name.includes('customerGroup')">
+                      <mat-form-field appearance="outline" class="col-sm-12">
+                        <mat-label>Customer Group</mat-label>
+                        <mat-select [formControl]="customerGroupsControl" multiple>
+                          <mat-select-trigger>
+                            {{customerGroupsControl.value ? customerGroupsControl.value[0]?.name : ''}}
+                            <span *ngIf="customerGroupsControl.value?.length > 1">
+                              (+{{customerGroupsControl.value.length - 1}} {{customerGroupsControl.value?.length === 2 ?
+                              'other' : 'others'}})
+                            </span>
+                          </mat-select-trigger>
+                          <mat-option *ngFor="let customerGroup of customerGroupList" [value]="customerGroup">
+                            {{customerGroup.name}}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </ng-container>
+
+                  </ng-container>
+
+                  <ng-container *ngIf="rFlag.flag.dataType === 'text'">
+                    <ng-container *ngIf="rFlag.name.indexOf('customer') > -1">
+                      <mat-form-field appearance="outline" class="col-sm-12">
+                        <mat-label>Search Customer</mat-label>
+                        <input class="white" formControlName="customer" matInput name="customer" readonly
+                          aria-label="customername">
+                        <button mat-icon-button matSuffix (click)="disSelect('customer')" *ngIf="getCustomer!.value"
+                          [disabled]="disableCustomer">
+                          <mat-icon class="cursor-pointer">close</mat-icon>
+                        </button>
+                        <button mat-icon-button matSuffix (click)="openDialog()" [disabled]="disableCustomer">
+                          <mat-icon class="cursor-pointer">search</mat-icon>
+                        </button>
+
+                      </mat-form-field>
+                    </ng-container>
+                  </ng-container>
+
+                  <ng-container *ngIf="rFlag.flag.dataType === 'datetime'">
+                    <ng-container *ngIf="rFlag.name === 'fromDate'">
+                      <mat-form-field appearance="outline" class="col-sm-12">
+                        <mat-label>From Date</mat-label>
+                        <input formControlName="fromDate" matInput [matDatepicker]="startdate" name="startdate">
+                        <button mat-icon-button matSuffix (click)="disSelect('fromDate')" *ngIf="getFromDate!.value"
+                          [disabled]="disableCustomer">
+                          <mat-icon class="cursor-pointer">close</mat-icon>
+                        </button>
+                        <mat-datepicker-toggle matSuffix [for]="startdate"></mat-datepicker-toggle>
+                        <mat-datepicker #startdate></mat-datepicker>
+                      </mat-form-field>
+                    </ng-container>
+
+                    <ng-container *ngIf="rFlag.name === 'toDate'">
+                      <mat-form-field appearance="outline" class="col-sm-12">
+                        <mat-label>To Date</mat-label>
+                        <input formControlName="toDate" matInput [matDatepicker]="todate" name="todate">
+                        <button mat-icon-button matSuffix (click)="disSelect('toDate')" *ngIf="getToDate!.value"
+                          [disabled]="disableCustomer">
+                          <mat-icon class="cursor-pointer">close</mat-icon>
+                        </button>
+                        <mat-datepicker-toggle matSuffix [for]="todate"></mat-datepicker-toggle>
+                        <mat-datepicker #todate></mat-datepicker>
+                      </mat-form-field>
+                    </ng-container>
+                  </ng-container>
+
+                </ng-container>
+              </ng-container>
+            </form>
+
+          </mat-card-content>
+        </mat-card>
+
+      </div>
+
+      <!-- <div class="float-right">
+            <h3>Report Selection List Component</h3>
+            <ul>
+                <li>Report 1</li>
+                <li>Report 2</li>
+            </ul>
+        </div> -->
+      <div class='control-section float-left col-sm-9'>
+        <div class='content-wrapper e-tbar-section'>
+          <div class='e-sample-resize-container'>
+            <ejs-toolbar id='topToolbar' (created)='createTopToolbar()' #topToolbar>
+              <e-items>
+                <!-- <e-item prefixIcon='e-pv-open-document-icon' id='openDocument' tooltipText='Open'
+                                (click)='openDocument($event)'>
+                            </e-item> -->
+                <e-item id='fitWidth' tooltipText='Fit to width'
+                  template='<button id="fit_width" class="e-btn e-tbar-btn"></button>'></e-item>
+                <e-item id='zoomInTop' tooltipText='Zoom in'
+                  template='<button id="zoom_in_top" class="e-btn e-tbar-btn"></button>'></e-item>
+                <e-item id='zoomOutTop' tooltipText='Zoom out'
+                  template='<button id="zoom_out_top" class="e-btn e-tbar-btn"></button>'></e-item>
+                <e-item id='previousPage' tooltipText='Previous page'
+                  template='<button id="previous_page" class="e-btn e-tbar-btn"></button>'></e-item>
+                <e-item id='nextPage' tooltipText='Next page'
+                  template='<button id="next_page" class="e-btn e-tbar-btn"></button>'></e-item>
+                <e-item align='Center'>
+                  <ng-template #template>
+                    <div class=''>
+                      <input type='text' class='e-input-group e-pv-current-page-number' id='currentPage' value="0"
+                        (keypress)='onCurrentPageBoxKeypress($event)' (click)='onCurrentPageBoxClicked($event)' />
+                    </div>
+                    <div style='margin-left: 6px'><span class='e-pv-total-page-number' id='totalPage'>of
+                        0</span></div>
+                  </ng-template>
+                </e-item>
+                <e-item tooltipText='Print' template='<button id="print" class="e-btn e-tbar-btn"></button>'></e-item>
+                <!-- <e-item prefixIcon='e-pv-download-document-icon' tooltipText='Download PDF'
+                  (click)='downloadClicked($event)' align='Right'></e-item> -->
+              </e-items>
+            </ejs-toolbar>
+          </div>
+          <ejs-toolbar id='magnificationToolbar' (created)='createZoomToolbar()' #zoomToolbar>
+            <e-items>
+              <e-item id='fitPage' tooltipText='Fit to page'
+                template='<button id="fit_page" class="e-btn e-tbar-btn"></button>'></e-item>
+              <e-item id='zoomIn' tooltipText='Zoom in'
+                template='<button id="zoom_in" class="e-btn e-tbar-btn"></button>'></e-item>
+              <e-item id='zoomOut' tooltipText='Zoom out'
+                template='<button id="zoom_out" class="e-btn e-tbar-btn"></button>'></e-item>
+            </e-items>
+          </ejs-toolbar>
+          <ejs-pdfviewer #pdfViewer id='pdfViewer' [serviceUrl]='service' [documentPath]='document'
+            [enableToolbar]=false [enableNavigationToolbar]=false (pageChange)='pageChanged($event)'
+            (documentLoad)='documentLoaded($event)' style="height:70vh; display: block">
+          </ejs-pdfviewer>
+          <input type="file" id="fileUpload" accept=".pdf" style="display:block;visibility:hidden;width:0;height:0;">
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

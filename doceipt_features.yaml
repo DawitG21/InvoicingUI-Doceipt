@@ -1,0 +1,261 @@
+##################################
+#      ~   D O C E I P T   ~     
+##################################
+# This file is intended to describe the functionalities of the app Doceipt
+
+
+
+##################################
+# Leke's production testing info
+##################################
+# server ip: http://132.145.235.128
+# server company: 34e39e06-c593-4cf0-b85c-cb7158e634b0
+##################################
+# NOTES:
+# Email auto-sent for invoice, payment and receipt when added and void
+# Customer TIN Number
+# Organization Name
+# Display unpaid invoices
+# Display invoices that has been paid as duplicate
+# Dependent invoices for extra services e.g. ASP unpaid
+# Module access should reflect in the data returned 
+#  e.g. Payments should not be returned in invoice response
+#       if user has access to invoice module but no access to payment module
+
+Search: 
+  search by customer name:
+  search by customer number:
+  search by phone:
+  search by contact name:
+  search by customer group:
+
+Settings:
+  Application settings:
+    Invoice:
+      # generate invoice once an open financial period's start date commence; auto generates invoice number regardless if it's set to false
+      auto generate invoice: true
+      # generate invoice number based on format
+      auto generate invoice number: true
+      # required for auto-generated invoice e.g. I-2019-06-20-001
+      invoice number format: "I-yyyy-mm-dd-###"
+      # invoices for each financial period have sequencial payment cycle
+      invoice must use sequential payment cycle in financial period: true
+
+    Receipt:
+      # generate receipt once due amount is 0; requires auto generate receipt number
+      auto generate receipt: true
+      # generate receipt number based on format
+      auto generate receipt number: true
+      # required for auto-generated receipt e.g. R-2019-06-25-003
+      receipt number format: "R-yyyy-mm-dd-###"
+
+  API Configuration:
+    Connector:
+      # view only access
+      read-only module access: true
+      # allow creating a new connector
+      create connector: true
+      # update connector but do not renew api key
+      update connector: true
+      # removes a connector completely from the company
+      delete connector: true
+      # renew api key
+      renew connector api key: true
+  
+    Source:
+      # view only access
+      read-only module access: true
+      # allow creating a new source
+      create source: true
+      # update source e.g. urls
+      update source: true
+      # removes a source com
+      delete source: true
+
+  # User - invite users and assign them to role
+  User settings:
+    General:
+      # allows creating a user invitation and assigning roles
+      create user: true
+      # allows editing user roles
+      update user: true
+      # removes a user from your organization
+      delete user: true
+
+  # Role - each user privileges would be controlled by the user role they are assigned to.
+  Role settings:
+    General:
+      # allows access to app settings
+      read-only module access to app settings: true
+      # allows access to role module
+      module access to role:
+        view role: true
+        # allows creating a role, including from other roles
+        create role: true
+        # allows editing a role including permissions
+        update role: true
+        # allows delete a role as long as no user is assigned
+        delete role: true
+      # allows access to user settings
+      module access to user settings:
+        view user: true
+        # allows creating a user invitation and assigning roles
+        create user: true
+        # allows editing user roles
+        update user: true
+        # removes a user from your organization
+        delete user: true
+      # allows access to API configuration
+      read-only module access to API configuration: true
+      # allows access to Language configuration
+      read-only module access to Language configuration: true
+    Company:
+      # allows access to company module
+      read-only module access to company: true
+      # allows creating a company
+      create company: true
+      # allows editing a company
+      update company: true
+    Tax:
+      # allows access to tax module
+      read-only module access to tax: true
+      # allows creating a tax
+      create tax: true
+      # allows editing a tax
+      update tax: true
+      # allows deleting a tax
+      delete tax: true
+    Service:
+      # allows access to service module
+      read-only module access to service: true
+      # allows creating a service
+      create service: true
+      # allows editing a service
+      update service: true
+      # allows deleting a service
+      delete service: true
+    Customer Group:
+      # allows access to customer group module
+      read-only module access to customer group: true
+      # allows creating a customer group
+      create customer group: true
+      # allows editing a customer group
+      update customer group: true
+      # allows deleting a customer group
+      delete customer group: true
+    Payment Cycle:
+      # allows access to payment cycle module
+      read-only module access to payment cycle: true
+      # allows creating a payment cycle
+      create payment cycle: true
+      # allows editing a payment cycle
+      update payment cycle: true
+      # allows deleting a payment cycle
+      delete payment cycle: true
+    Service Fee:
+      # allows access to service fee module
+      read-only module access to service fee: true
+      # allows creating a service fee
+      create service fee: true
+      # allows editing a service fee
+      update service fee: true
+      # allows deleting a service fee
+      delete service fee: true
+      Service Fee Tax:
+        # allows creating a service fee tax
+        create service fee tax: true
+        # allows deleting a service fee tax
+        delete service fee tax: true
+    Branch:
+      # allows access to branch module
+      read-only module access to branch: true
+      # allows creating a branch
+      create branch: true
+      # allows editing a branch
+      update branch: true
+      # allows deleting a branch
+      delete branch: true
+    Contact:
+      # allows access to contact module
+      read-only module access to contact: true
+      # allows creating a contact
+      create contact: true
+      # allows editing a contact
+      update contact: true
+      # allows deleting a contact
+      delete contact: true
+    Customer:
+      # allows access to customer module
+      read-only module access to customer: true
+      # allows creating a customer
+      create customer: true
+      # allows editing a customer
+      update customer: true
+      # allows deleting a customer
+      delete customer: true
+
+      Billing Address:
+        # allows access to billing address module
+        read-only module access to billing address: true
+        # allows creating a billing address
+        create billing address: true
+        # allows editing a billing address
+        update billing address: true
+        # allows deleting a billing address
+        delete billing address: true
+    Financial Period:
+      # allows access to financial period module
+      read-only module access to financial period: true
+      # allows creating a financial period
+      create financial period: true
+      # allows editing a financial period
+      update financial period: true
+      # allows deleting/void a financial period
+      delete financial period: true
+    Invoice:
+      # allows access to invoice module
+      read-only module access to invoice: true
+      # allows creating an invoice
+      create invoice: true
+      # allows void an invoice
+      delete invoice: true
+    Payables:
+      # allows access to payables module
+      read-only module access to payables: true
+      # allows make payment for an invoice
+      pay invoice: true
+      # allows request an invoice for selected services
+      request a quote: true
+    Suppliers:
+      # allows access to suppliers module
+      read-only module access to suppliers: true
+      # allows viewing supplier-assigned customer id
+      view supplier-assigned reference id: true
+    Payment Method:
+      # allows access to payment method module
+      read-only module access to payment method: true
+      # allows creating a payment method
+      create payment method: true
+      # allows editing a payment method
+      update payment method: true
+      # allows void a payment method
+      delete payment method: true
+    Payment:
+      # allows access to payment module
+      read-only module access to payment: true
+      # allows creating a payment
+      create payment: true
+      # allows void a payment
+      delete payment: true
+    Receipt:
+      # allows access to receipt module
+      read-only module access to receipt: true
+      # allows creating a receipt
+      create receipt: true
+      # allows editing a receipt e.g. FS Number
+      update receipt: true
+      # allows void a receipt
+      delete receipt: true
+    Report:
+      read-only module access to report: true
+

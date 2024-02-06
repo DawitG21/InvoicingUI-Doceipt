@@ -1,0 +1,9 @@
+<h1 mat-dialog-title><small>{{message}}</small></h1>
+<div mat-dialog-content>
+    <mat-progress-bar mode="determinate" value="{{progress}}"></mat-progress-bar>
+</div>
+
+<div mat-dialog-actions align="end" class="w-100 mt-4">
+    <button mat-button (click)="onDialogClick('cancel')" *ngIf="!completed">Cancel</button>
+    <button mat-button (click)="onDialogClick('done')" *ngIf="completed">Done</button>
+</div>

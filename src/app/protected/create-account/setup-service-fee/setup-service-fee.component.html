@@ -1,0 +1,38 @@
+<form form id="f" class="formstyle" *ngIf="model" [formGroup]="form">
+    <mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+
+    <h4 class="headertext">Service Fee</h4>
+    <mat-form-field appearance="outline" class="col-sm-12">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" required placeholder="e.g Grade 1 - Quarter 1 - Registration..." />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-sm-12">
+        <mat-label>Description</mat-label>
+        <textarea matInput placeholder="A brief description of the Service Fee."
+            formControlName="description"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-sm-6">
+        <mat-label>Amount</mat-label>
+        <input matInput type="number" formControlName="amount" required placeholder="e.g 1000..." />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-sm-6">
+        <mat-label>Currency</mat-label>
+        <mat-select formControlName="currency" required>
+            <mat-option *ngFor="let currency of currencies" [value]="currency">
+                {{ currency }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <div class="row mt-3 ml-3">
+        <button mat-raised-button class="col-sm-5" color="primary" (click)="skipToDashboard()">Skip to
+            Dashboard &nbsp;<mat-icon>skip_next</mat-icon>
+        </button>
+        <button mat-raised-button class="col-sm-6 ml-3" color="primary" (click)="save()">
+            Finish &nbsp; <mat-icon>done</mat-icon>
+        </button>
+    </div>
+</form>

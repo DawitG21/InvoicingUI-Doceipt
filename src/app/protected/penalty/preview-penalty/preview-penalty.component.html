@@ -1,0 +1,67 @@
+<div mat-dialog-content>
+
+    <div>
+        <mat-label class="font-preview mb-3">Penalty Preview</mat-label>
+        <mat-icon class="float-right font-preview cursor-pointer" title="Close Preview" color="primary"
+            (click)="close()">
+            clear</mat-icon>
+    </div>
+
+    <div class="modal-body">
+
+        <mat-divider></mat-divider>
+        <div *ngIf="penalty">
+
+            <div class="row mr-3">
+                <mat-label class="col-sm-6">
+                    <mat-label class="float-right col-form-label text-center">Name</mat-label>
+                </mat-label>
+                <mat-label class="col-sm-6 col-form-label">{{penalty.name}}</mat-label>
+            </div>
+
+            <div class="row mr-3">
+                <mat-label class="col-sm-6">
+                    <mat-label class="float-right col-form-label text-center">Financial Period</mat-label>
+                </mat-label>
+                <mat-label class="col-sm-6 col-form-label">
+                    {{penalty.financialPeriod.name}}</mat-label>
+            </div>
+
+            <mat-divider></mat-divider>
+            <div class="row mr-3">
+                <mat-label class="col-sm-6">
+                    <mat-label class="float-right col-form-label text-center">Rate Type</mat-label>
+                </mat-label>
+                <mat-label class="col-sm-6 col-form-label">{{penalty.rateType}}</mat-label>
+            </div>
+
+            <div class="row mr-3">
+                <mat-label class="col-sm-6">
+                    <mat-label class="float-right col-form-label text-center">Rate</mat-label>
+                </mat-label>
+                <mat-label class="col-sm-6 col-form-label">{{penalty.rate}}</mat-label>
+            </div>
+
+            <mat-divider></mat-divider>
+            <ng-container *ngIf="penalty.penaltyRates">
+                <ng-container *ngFor="let p of penalty.penaltyRates">
+                    <div class="row mr-3">
+                        <mat-label class="col-sm-6">
+                            <mat-label class="float-right col-form-label text-center">After Duration (Days)</mat-label>
+                        </mat-label>
+                        <mat-label class="col-sm-6 col-form-label">{{p.afterDuration}}</mat-label>
+                    </div>
+
+                    <div class="row mr-3">
+                        <mat-label class="col-sm-6">
+                            <mat-label class="float-right col-form-label text-center">Rate</mat-label>
+                        </mat-label>
+                        <mat-label class="col-sm-6 col-form-label">{{p.rate}}</mat-label>
+                    </div>
+                    <mat-divider></mat-divider>
+                </ng-container>
+            </ng-container>
+
+        </div>
+    </div>
+</div>

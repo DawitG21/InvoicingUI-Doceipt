@@ -1,0 +1,79 @@
+<div class="main-content">
+  <div class="content-toolbar">
+
+    <button mat-button color="primary" (click)="goBack()">
+      <mat-icon aria-hidden="false" aria-label="keyboard_arrow_left icon">keyboard_arrow_left</mat-icon>New Source
+    </button>
+
+    <button mat-button color="primary" class="float-right ml-1" [disabled]="saveStatus" (click)="save()">
+      Save
+    </button>
+
+  </div>
+</div>
+
+<mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+<form id="settings-form" class="mt-4" [formGroup]="form">
+
+  <mat-form-field appearance="outline" class="col-sm-6">
+    <mat-label>Name</mat-label>
+    <input matInput formControlName="name" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="col-sm-6">
+    <mat-label>Customer Group Url</mat-label>
+    <input matInput formControlName="customerGroupUrl" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="col-sm-6">
+    <mat-label>Contact Url</mat-label>
+    <input matInput formControlName="contactUrl" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="col-sm-6">
+    <mat-label>Branch Url</mat-label>
+    <input matInput formControlName="branchUrl" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="col-sm-6">
+    <mat-label>Customer Url</mat-label>
+    <input matInput formControlName="customerUrl" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="col-sm-6">
+    <mat-label>AuthType</mat-label>
+    <mat-select formControlName="authType" required>
+      <mat-option *ngFor="let auth of authTypes" [value]="auth" (click)="enableInput(auth)">
+        <ng-container>
+          {{auth}}
+        </ng-container>
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="col-sm-6">
+    <mat-label>Auth Url</mat-label>
+    <input matInput formControlName="authUrl" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="col-sm-6">
+    <mat-label>Auth Token</mat-label>
+    <input matInput formControlName="authToken" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="col-sm-6">
+    <mat-label>Auth User Name</mat-label>
+    <input matInput formControlName="authUsername" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="col-sm-6">
+    <mat-label>Auth Password</mat-label>
+    <input matInput type="password" formControlName="authPassword" />
+  </mat-form-field>
+
+  <mat-slide-toggle formControlName="isActive" checked="{{status}}" class="ml-3" color="primary"
+    (change)="setStatus($event.checked)">
+    {{message}}
+  </mat-slide-toggle>
+
+</form>

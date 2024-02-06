@@ -1,0 +1,70 @@
+<div class="main-content">
+  <div class="content-toolbar">
+
+    <button mat-button color="primary" (click)="goBack()">
+      <mat-icon aria-hidden="false" aria-label="keyboard_arrow_left icon">keyboard_arrow_left</mat-icon>Manage Company
+    </button>
+
+    <button mat-button color="primary" class="float-right ml-1" (click)="goRole()"
+      *ngIf="claims && claims.doceipt_user_isOwner">
+      Manage Roles
+    </button>
+
+    <button mat-button color="primary" class="float-right ml-1" (click)="openDialog()"
+      *ngIf="claims && claims.doceipt_user_isOwner">
+      Invite User
+    </button>
+
+  </div>
+</div>
+
+<mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+<div class="mt-5">
+  <h5>Our people</h5>
+  <p>
+    <small class="text-muted">People belonging to my company.</small>
+  </p>
+
+  <mat-label *ngIf="users" class="row mt-2">
+    <mat-label *ngFor="let u of users; let i = index" class="col-sm-4 mb-2 text-muted">
+
+      <p class="border p-2 text-truncate">
+        <mat-icon color="primary" class="cursor-pointer ml-1 float-right" (click)="userDeleteDialog(i)" title="Delete"
+          *ngIf="claims && claims.doceipt_user_isOwner && userId != u.id && !u.isPrincipalOwner">delete_outline
+        </mat-icon>
+        <mat-icon color="primary" class="cursor-pointer ml-1 float-right"
+          *ngIf="claims && claims.doceipt_user_isOwner && userId != u.id && !u.isPrincipalOwner" (click)="goUpdateUser(u)" title="Update">
+          edit
+        </mat-icon>
+        {{u.name}}
+        <mat-icon color="primary" title="Account principal" class="cursor-pointer mr-1" *ngIf="u.isPrincipalOwner">
+          memory</mat-icon>
+        <mat-icon color="primary" title="Owner" class="cursor-pointer mr-1" *ngIf="u.isOwner">person_pin</mat-icon>
+        <br>
+        <small>{{u.email}}</small>
+      </p>
+
+    </mat-label>
+  </mat-label>
+
+</div>
+
+<div class="mt-5">
+  <h5>Pending Invites</h5>
+  <p>
+    <small class="text-muted">List of users invited into this company.</small>
+  </p>
+
+  <mat-label *ngIf="invites" class="row mt-2">
+    <mat-label *ngFor="let v of invites; let i = index" class="col-sm-4 mb-2 text-muted">
+      <p class="border p-2 text-truncate">
+        <mat-icon color="primary" class="cursor-pointer ml-1 float-right" (click)="inviteDeleteDialog(i)" title="Delete"
+          *ngIf="claims && claims.doceipt_user_isOwner">delete_outline
+        </mat-icon>
+        {{v.username}}<br>
+        <small>By: {{v.invitedBy.name}}</small>
+      </p>
+    </mat-label>
+  </mat-label>
+
+</div>

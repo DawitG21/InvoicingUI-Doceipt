@@ -1,0 +1,37 @@
+.white {
+  color: white;
+}
+
+#formcustomersearchpage.select-white::ng-deep.mat-select-value {
+  color: white;
+}
+::ng-deep.mat-select-value {
+  color: white;
+}
+
+::ng-deep.mat-select-arrow {
+  color: white;
+}
+
+#formcustomersearchpage::ng-deep.mat-form-field-underline {
+  background-color: white !important;
+}
+
+#formcustomersearchpage::ng-deep.mat-form-field-ripple {
+  background-color: white !important;
+}
+
+::placeholder {
+  color: white;
+}
+
+a {
+  text-decoration: none;
+}
+
+.toolbar-drawer-caret {
+  font-size: 50px;
+  position: relative;
+  top: 20px;
+  left: 6px;
+}

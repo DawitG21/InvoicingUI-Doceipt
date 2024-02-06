@@ -1,0 +1,58 @@
+<div *ngIf="!isAuthenticated">
+    <!-- <header>
+        <div class="logo-container">
+            <img src="assets/images/appliedline_logo_64_transparent.png" alt="logo" />
+            <h4 class="logo">Appliedline</h4>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a class="nav-link" href="#">Specs</a></li>
+                <li><a class="nav-link" href="#">Products</a></li>
+                <li><a class="nav-link" href="#">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="cart">
+            <img src="./img/cart.svg" alt="cart" />
+        </div>
+    </header> -->
+
+    <main>
+        <section class="presentation">
+            <div class="introduction mt-5">
+                <div class="intro-text mt-5">
+                    <h1>DOCEIPT</h1>
+                    <p>invoice &bull; payment &bull; receipt</p>
+                </div>
+                <div class="cta">
+                    <!-- <button class="cta-select" (click)="signup()">Signup</button> -->
+                    <button class="cta-add" (click)="signin()">Login</button>
+                </div>
+            </div>
+            <!-- <div class="cover">
+                <div id="slideshow">
+                    <div class="slide-wrapper">
+                        <div class="slide">
+                            <img src="assets/images/kisspng-round-table-meeting-clip-art-meeting-5ab8e34368bc02.png">
+                        </div>
+                        <div class="slide">
+                            <img src="assets/images/organization-meeting-cliparts-161444-3476050.png">
+                        </div>
+                        <div class="slide">
+                            <img src="assets/images/2.png">
+                        </div>
+                        <div class="slide">
+                            <img src="assets/images/Prepaid-&-Postpaid-Billing-Facility-in -iTel-Billing.png">
+                        </div>
+                        <div class="slide">
+                            <h1 class="slide-number"></h1>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </section>
+    </main>
+</div>
+
+<router-outlet></router-outlet>
+
+<!-- <footer>Footer Section</footer> -->

@@ -1,0 +1,33 @@
+<h1 mat-dialog-title>
+  <small>
+    <mat-icon>email</mat-icon> Invitations
+  </small>
+</h1>
+<div mat-dialog-content>
+  <mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+  <div *ngIf="invites" class="row mt-2">
+    <div *ngFor="let invite of invites; let i = index" class="col-sm-12 mb-2 text-muted">
+      <div class="border p-2">
+        <button type="button" class="float-right btn btn-lg btn-outline text-success" (click)="acceptInvite(i)"
+          title="Accept">
+          <mat-icon aria-hidden="false">thumb_up</mat-icon>
+        </button>
+        <button type="button" class="float-right btn btn-lg btn-outline text-muted" (click)="declineInvite(i)"
+          title="Decline">
+          <mat-icon aria-hidden="false">thumb_down</mat-icon>
+        </button>
+
+        <p class="mb-0 text-truncate">{{invite.company.displayName}}</p>
+        <p class="mb-0"><small>Invited by: {{invite.invitedBy.name}}</small></p>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!invites || invites.length === 0">
+    <p>No invitation. You need to make new friends :)</p>
+  </div>
+</div>
+
+<div mat-dialog-actions align="end" class="w-100 mt-4" *ngIf="!invites || invites.length === 0">
+  <button mat-button (click)="close()">Done</button>
+</div>

@@ -1,0 +1,38 @@
+<form form id="f" class="formstyle" *ngIf="model" [formGroup]="form">
+    <mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+
+    <h4 class="headertext">Service</h4>
+    <mat-form-field appearance="outline" class="col-sm-12">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" required placeholder="e.g Registration..." />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-sm-12">
+        <mat-label>Order #</mat-label>
+        <input matInput type="number" formControlName="orderNo" required placeholder="e.g 1..." />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-sm-12">
+        <mat-label>Description</mat-label>
+        <textarea matInput placeholder="A brief description of the Service." formControlName="description"></textarea>
+    </mat-form-field>
+
+    <mat-slide-toggle formControlName="isActive" checked="{{status}}" class="ml-3" color="primary"
+        (change)="setStatus($event.checked)">
+        {{message}}
+    </mat-slide-toggle>
+
+    <mat-slide-toggle formControlName="mandatory" checked="{{mandatory}}" class="float-right mr-3" color="primary"
+        (change)="setMandatory($event.checked)">
+        {{messageMandatory}}
+    </mat-slide-toggle>
+
+    <div class="row mt-3 ml-3">
+        <button mat-raised-button class="col-sm-5" color="primary" (click)="skipToDashboard()">Skip to
+            Dashboard &nbsp;<mat-icon>skip_next</mat-icon>
+        </button>
+        <button mat-raised-button class="col-sm-6 ml-3" color="primary" (click)="save()">
+            Next &nbsp; <mat-icon>arrow_forward_ios</mat-icon>
+        </button>
+    </div>
+</form>

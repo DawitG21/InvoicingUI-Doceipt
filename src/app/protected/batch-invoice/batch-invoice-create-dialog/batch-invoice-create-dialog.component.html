@@ -1,0 +1,112 @@
+<form *ngIf="data.show" [formGroup]="form" (ngSubmit)="openImportCustomerConfirm()">
+  <h1 mat-dialog-title>Generate Batch Invoice</h1>
+  <mat-progress-bar mode="indeterminate" *ngIf="getRunningTasks()"></mat-progress-bar>
+
+  <div mat-dialog-content>
+
+    <mat-form-field class="w-100">
+      <mat-label>Search Financial Period</mat-label>
+      <input type="text" placeholder="Financial Period" matInput [formControl]="financialPeriodName"
+        [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let fp of financialPeriods" [value]="fp.name">
+          {{fp.name}}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-error *ngIf="financialPeriodName!.invalid">Financial period donesn't exist</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <mat-label>Search Payment Cycle</mat-label>
+      <input type="text" placeholder="Payment Cycle" matInput [formControl]="paymentCycleName"
+        [matAutocomplete]="pcycle">
+      <mat-autocomplete #pcycle="matAutocomplete">
+        <mat-option *ngFor="let p of paymentCycles" [value]="p.name">
+          {{p.name}}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-error *ngIf="paymentCycleName!.invalid">Payment cycle donesn't exist</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <mat-select placeholder="Customer Group" formControlName="customerGroups" multiple>
+        <mat-select-trigger>
+          {{getCustomerGroupText}}
+          <span *ngIf="getCustomerGroups!.value?.length > 1" class="example-additional-selection">
+            ({{getCustomerGroupConcat}})
+          </span>
+        </mat-select-trigger>
+        <mat-option *ngFor="let g of customerGroupList" [value]="g">
+          <ng-container *ngIf="g.isActive">
+            {{g.name}}
+          </ng-container>
+        </mat-option>
+      </mat-select>
+
+      <mat-error *ngIf="getCustomerGroups!.invalid">{{getRequiredErrorMessage('customerGroups')}}</mat-error>
+    </mat-form-field>
+
+
+    <mat-form-field class="w-100">
+      <input matInput [matDatepicker]="dpInvoiceDate" [max]="today" [matDatepickerFilter]="invDateFilter"
+        (dateInput)="onInvoiceDate('input', $event)" (dateChange)="onInvoiceDate('change', $event)"
+        placeholder="Invoice date" formControlName="invoiceDate" readonly required>
+
+      <button mat-button *ngIf="getInvoiceDate!.value" matSuffix mat-icon-button aria-label="Clear"
+        (click)="clearCtrlValue(getInvoiceDate)">
+        <mat-icon>close</mat-icon>
+      </button>
+
+      <mat-datepicker-toggle matSuffix [for]="dpInvoiceDate"></mat-datepicker-toggle>
+      <mat-datepicker touchUi #dpInvoiceDate [disabled]="financialPeriodName!.invalid"></mat-datepicker>
+      <mat-error *ngIf="getInvoiceDate!.invalid">{{getRequiredErrorMessage('invoiceDate')}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <input matInput [matDatepicker]="dpDueDate" [matDatepickerFilter]="invDueDateFilter"
+        placeholder="Invoice due date" formControlName="invoiceDueDate" readonly>
+
+      <button mat-button *ngIf="getInvoiceDueDate!.value" matSuffix mat-icon-button aria-label="Clear"
+        (click)="clearCtrlValue(getInvoiceDueDate)">
+        <mat-icon>close</mat-icon>
+      </button>
+
+      <mat-datepicker-toggle matSuffix [for]="dpDueDate"></mat-datepicker-toggle>
+      <mat-datepicker touchUi #dpDueDate [disabled]="getInvoiceDate!.invalid"></mat-datepicker>
+      <mat-error *ngIf="getInvoiceDueDate!.invalid">{{getDueDateErrorMessage()}}</mat-error>
+    </mat-form-field>
+  </div>
+
+  <div mat-dialog-actions align="end" class="w-100">
+    <button mat-button color="primary" type="submit" cdkFocusInitial>Ok</button>
+  </div>
+</form>
+
+
+<div *ngIf="!data.show">
+  <mat-list>
+    <h3 mat-header>{{batchGenerateMessage}}</h3>
+    <mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+    <h3 mat-subheader>{{currentCount}} of {{totalCount}}</h3>
+
+    <ng-container *ngFor="let g of getCustomerGroups!.value; let i = index">
+      <mat-list-item>
+        <mat-spinner [diameter]="20" *ngIf="getBusyStatus(i)"></mat-spinner>
+
+        <ng-container *ngIf="getStatus(i, true)">
+          <small class="mr-2">{{getRowCount(i)}}</small>
+          <mat-icon class="text-success">done</mat-icon>
+        </ng-container>
+
+        <mat-icon *ngIf="getStatus(i, false)" class="text-danger">error_outline</mat-icon>
+
+        <h4 mat-line>{{g.name}}</h4>
+      </mat-list-item>
+      <mat-divider *ngIf="i !== getCustomerGroups!.value.length - 1"></mat-divider>
+    </ng-container>
+  </mat-list>
+
+  <div mat-dialog-actions align="end">
+    <button mat-button (click)="closeDialog()" cdkFocusInitial [disabled]="busy">Close</button>
+  </div>
+</div>

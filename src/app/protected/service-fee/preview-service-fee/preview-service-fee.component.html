@@ -1,0 +1,79 @@
+<h1 mat-dialog-title>
+    Preview Service Fee</h1>
+<div mat-dialog-content>
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-sm">
+                <mat-label class="fee-headers">Service Fee</mat-label><br>
+                <label mat-label>{{ model.message.name }}</label>
+            </div>
+            <div class="col-sm">
+                <mat-label class="fee-headers">Customer Group </mat-label><br>
+                <label mat-label>{{ model.message.customerGroup.name }}</label>
+            </div>
+            <div class="col-sm">
+                <mat-label class="fee-headers">Payment Cycle </mat-label><br>
+                <label mat-label>{{ model.message.paymentCycle.name }}</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm">
+                <mat-label class="fee-headers">Service </mat-label><br>
+                <label mat-label>{{ model.message.service.name  }}</label>
+            </div>
+            <div class="col-sm">
+                <mat-label class="fee-headers">Amount </mat-label><br>
+                <label mat-label>{{ model.message.amount}}</label>
+            </div>
+            <div class="col-sm">
+                <mat-label class="fee-headers">Currency </mat-label><br>
+                <label mat-label>{{ model.message.currency }}</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm">
+                <mat-label class="fee-headers">Description </mat-label><br>
+                <label mat-label>{{ model.message.description  }}</label>
+            </div>
+            <div class="col-sm">
+                <mat-label class="fee-headers">Tax Inclusive </mat-label><br>
+                <label mat-label>{{ model.message.taxInclusive }}</label>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="this.model.message.taxes">
+        <div class="main-content">
+            <mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+            <div class="mt-4">
+                <table mat-table matSort [dataSource]="dataSource" class="mat-elevation-z8 w-100">
+
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                        <td mat-cell *matCellDef="let element"> {{ element.name }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="percentValue">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Rate </th>
+                        <td mat-cell *matCellDef="let element"> {{ element.percentValue }}% </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="description">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+                        <td mat-cell *matCellDef="let element"> {{ element.description }} </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+
+</div>

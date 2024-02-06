@@ -1,0 +1,80 @@
+.mat-dialog-content {
+  max-height: 90vh;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.inv-detail {
+  margin-left: 25px;
+}
+
+[data-toggle="collapse"][aria-expanded="true"]>.rotate-icon {
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+
+.size {
+  font-size: 25px;
+}
+
+.icn-size {
+  font-size: 18px;
+}
+
+.due {
+  background-color: darkred;
+  color: white;
+  padding: 5px;
+}
+
+.bisque {
+  background-color: bisque;
+  color: black;
+  padding: 5px;
+}
+
+.mls-4 {
+  margin-left: 1.5rem !important;
+}
+
+.f-rt {
+  float: right;
+}
+
+.f-lt {
+  float: left;
+}
+
+@media only screen and (max-width : 480px) {
+  .mls-4 {
+    margin-left: 0rem !important;
+  }
+
+  .f-rt {
+    float: left;
+  }
+
+  .fl-t {
+    float: left;
+  }
+
+  .mt-4,
+  .my-4 {
+    margin-top: 0rem !important;
+  }
+
+  .m-ls {
+    margin-left: 0rem !important;
+  }
+}
+
+@media only screen and (max-width : 763px) {
+  .m-ls {
+    margin-left: 1.5rem;
+  }
+}

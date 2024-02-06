@@ -1,0 +1,89 @@
+.modalInvoicePreview {
+  width: 80%;
+  min-height: 1000px;
+}
+
+.modalContent {
+  max-width: 5000px;
+  margin-left: 15%;
+  margin-top: 50px;
+}
+
+.btn-print {
+  position: absolute;
+  margin-left: 1116px;
+  margin-top: 7px;
+}
+
+.icon-print {
+  font-size: 20px;
+}
+
+.title-Invoice {
+  font-size: 18px;
+  color: blueviolet;
+}
+
+label {
+  margin-bottom: 0rem !important;
+}
+
+.label-contact {
+  color: rgb(100, 100, 245);
+  font-weight: bold;
+}
+
+.label-amount {
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.row-size {
+  width: 90%;
+}
+
+.list-service-fee {
+  border: 1px solid rgb(122, 24, 24);
+}
+
+.custom-table {
+  border-right: 1px solid rgb(122, 24, 24);
+  border-left: 1px solid rgb(122, 24, 24);
+  border-bottom: 1px solid rgb(122, 24, 24);
+}
+
+.hr {
+  color: rgb(73, 73, 73);
+}
+
+.footer {
+  width: 100%;
+}
+
+.mr-8 {
+  margin-right: 0px;
+}
+
+.row {
+  margin-left: 0px;
+}
+
+.btn-background {
+  background-color: blueviolet;
+  color: #ffffff;
+}
+
+// material styling additions
+
+.menu-overflow-hidden {
+  overflow: hidden !important;
+}
+
+.row {
+  margin-left: 0px;
+}
+
+.btn-background {
+  background-color: blueviolet;
+  color: #ffffff;
+}

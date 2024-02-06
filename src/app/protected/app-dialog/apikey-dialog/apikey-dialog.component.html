@@ -1,0 +1,18 @@
+<h1 mat-dialog-title>API Key</h1>
+<p mat-dialog-subtitle class="text-muted">
+    Copy the following API key. This is the only time you will see it.
+</p>
+
+<div mat-dialog-content>
+    <mat-form-field appearance="fill" class="w-100">
+        <mat-label>API Key</mat-label>
+        <input matInput id="apikey" name="apiKey" readonly value="{{apiKey}}">
+        <button mat-icon-button matSuffix (click)="copyApiKey()" title="Copy">
+            <mat-icon>content_copy</mat-icon>
+        </button>
+    </mat-form-field>
+</div>
+
+<div mat-dialog-actions align="end" class="w-100 mt-4">
+    <button mat-button (click)="onNoClick()">Done</button>
+</div>

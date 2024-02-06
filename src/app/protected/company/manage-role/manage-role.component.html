@@ -1,0 +1,33 @@
+<div class="main-content">
+  <div class="content-toolbar">
+
+    <button mat-button color="primary" (click)="goBack()">
+      <mat-icon aria-hidden="false" aria-label="keyboard_arrow_left icon">keyboard_arrow_left</mat-icon>Manage Roles
+    </button>
+
+    <button class="float-right mr-5" mat-icon-button color="primary" aria-label="Add Role" (click)="goAddRole()">
+      Create
+    </button>
+
+  </div>
+</div>
+
+<mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+
+
+<div class="col-sm-12">
+
+  <mat-label *ngIf="roles" class="row mt-2">
+    <mat-label *ngFor="let r of roles; let i = index" class="col-sm-4 mb-2 text-muted">
+      <p class="border p-2 text-truncate with-icon">
+        <mat-icon color="primary" class="cursor-pointer mr-2" (click)="goEditRole(r)" title="Edit">edit</mat-icon>
+        {{r.name}}
+        <mat-icon color="primary" class="cursor-pointer right-absolute mr-3" (click)="openDeleteDialog(r, i)"
+          title="Delete">
+          delete_outline
+        </mat-icon>
+      </p>
+    </mat-label>
+  </mat-label>
+
+</div>

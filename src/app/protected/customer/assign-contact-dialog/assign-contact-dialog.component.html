@@ -1,0 +1,26 @@
+<h1 mat-dialog-title>Assign Contact</h1>
+
+<div mat-dialog-content>
+    <div class="row mb-2">
+
+        <div class="col-sm-6 text-center" *ngIf="claims && claims.doceipt_claim_contact_create">
+            <button mat-stroked-button class="cursor-pointer" color="primary" [mat-dialog-close]="data.input">
+                <mat-icon>add</mat-icon>
+                <h4>
+                    <small>New Contact</small>
+                </h4>
+            </button>
+        </div>
+
+        <div class="col-sm-6 text-center" *ngIf="claims && claims.doceipt_claim_contact_access">
+            <button mat-stroked-button class="cursor-pointer" color="primary"
+                (click)="onNoClick(); openSearchDialog();">
+                <mat-icon>link</mat-icon>
+                <h4>
+                    <small>Existing Contact</small>
+                </h4>
+            </button>
+        </div>
+
+    </div>
+</div>

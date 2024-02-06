@@ -1,0 +1,50 @@
+<div class="main-content">
+    <div class="content-toolbar">
+
+        <button mat-button color="primary" (click)="goBack()">
+            <mat-icon aria-hidden="false" aria-label="keyboard_arrow_left icon">keyboard_arrow_left</mat-icon>New
+            Financial Period
+        </button>
+
+        <button mat-button color="primary" class="float-right ml-1" [disabled]="saveStatus" (click)="save()">
+            Save
+        </button>
+
+    </div>
+</div>
+
+
+<mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+<form id="f" class="mt-4" *ngIf="model" [formGroup]="form">
+
+    <mat-form-field appearance="outline" class="col-sm-6">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" required placeholder="e.g 2018 July - 2019 June..." />
+    </mat-form-field>
+    <div class="col-sm-6"></div>
+
+    <mat-form-field appearance="outline" class="col-sm-6">
+        <mat-label>Start Date</mat-label>
+        <input matInput [matDatepicker]="startdate" formControlName="startDate" required>
+        <mat-datepicker-toggle matSuffix [for]="startdate"></mat-datepicker-toggle>
+        <mat-datepicker #startdate></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-sm-6">
+        <mat-label>End Date</mat-label>
+        <input matInput [matDatepicker]="enddate" formControlName="endDate" required>
+        <mat-datepicker-toggle matSuffix [for]="enddate"></mat-datepicker-toggle>
+        <mat-datepicker #enddate></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-sm-12">
+        <mat-label>Description</mat-label>
+        <textarea matInput placeholder="A brief description of the Financial Period."
+            formControlName="description"></textarea>
+    </mat-form-field>
+
+    <mat-slide-toggle formControlName="opened" checked="{{status}}" class="ml-3" color="primary"
+        (change)="setStatus($event.checked)">
+        {{message}}
+    </mat-slide-toggle>
+</form>

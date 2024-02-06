@@ -1,0 +1,42 @@
+<h1 mat-dialog-title>Billing Address</h1>
+<p mat-dialog-subtitle class="text-muted">update billing address here.
+</p>
+
+<div mat-dialog-content>
+    <form id="f" class="mt-4" [formGroup]="form">
+        <mat-form-field class="w-100">
+            <mat-label>Choose primary email</mat-label>
+            <mat-select formControlName="primaryEmail" required>
+                <ng-container *ngFor="let email of billingAddress.contact.emails">
+                    <mat-option value="{{email.email}}">{{email.email}}</mat-option>
+                </ng-container>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="w-100">
+            <mat-label>Choose Relationship</mat-label>
+            <mat-select formControlName="relationship" required>
+                <mat-option value="parent">Parent</mat-option>
+                <mat-option value="self">Self</mat-option>
+                <mat-option value="spouse">Spouse</mat-option>
+                <mat-option value="relative">Relative</mat-option>
+                <mat-option value="others">Others</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="w-100">
+            <mat-label>Choose primary phone</mat-label>
+            <mat-select formControlName="primaryPhone" required>
+                <ng-container *ngFor="let phone of billingAddress.contact.phoneNumbers">
+                    <mat-option value="{{phone.dialingCode}} {{phone.phone}}">{{phone.dialingCode}} {{phone.phone}}
+                    </mat-option>
+                </ng-container>
+            </mat-select>
+        </mat-form-field>
+    </form>
+</div>
+
+<div mat-dialog-actions align="end" class="w-100 mt-4">
+    <button mat-button (click)="save()">Save</button>
+    <button mat-button *ngIf="isUpdate" (click)="cancel()">Cancel</button>
+</div>

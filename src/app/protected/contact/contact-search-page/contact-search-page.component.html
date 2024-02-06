@@ -1,0 +1,90 @@
+<div class="main-content">
+    <div class="content-toolbar">
+
+        <button mat-button color="primary" (click)="goBack()">
+            <mat-icon aria-hidden="false" aria-label="keyboard_arrow_left icon">keyboard_arrow_left</mat-icon>
+            &nbsp;&nbsp;Search Contact
+        </button>
+
+    </div>
+</div>
+
+<mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+<div class="mt-3">
+    <form id="f" [formGroup]="form">
+        <mat-form-field appearance="outline" class="col-sm-8 ml-5">
+            <mat-label>Search Contact</mat-label>
+            <input matInput aria-label="customerGroupName" formControlName="searchText">
+            <button mat-icon-button matSuffix (click)="search()">
+                <mat-icon class="cursor-pointer">search</mat-icon>
+            </button>
+        </mat-form-field>
+    </form>
+
+    <div class="mt-2">
+        <table mat-table matSort [dataSource]="dataSource" class="mat-elevation-z8 w-100">
+
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="gender">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Gender </th>
+                <td mat-cell *matCellDef="let element"> {{element.gender}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+                <td mat-cell *matCellDef="let element">
+                    {{(element.email)? ((element.email.length>35)? (element.email | slice:0:35)+'...':(element.email)) : (element.email) }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="phonenumber">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Phone </th>
+                <td mat-cell *matCellDef="let element">
+                    <ng-container *ngIf="element.phoneNumbers.length > 0">
+                        {{element.phoneNumbers[0].dialingCode}} {{element.phoneNumbers[0].phone}}
+                    </ng-container>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+                <td mat-cell *matCellDef="let element">
+                    <mat-chip-list>
+                        <mat-chip *ngIf="element.isActive" color="primary" selected>Active</mat-chip>
+                        <mat-chip *ngIf="!element.isActive" color="accent" selected>Inactive</mat-chip>
+                    </mat-chip-list>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions" stickyEnd>
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let element">
+                    <mat-icon class="cursor-pointer ml-1" *ngIf="claims && claims.doceipt_claim_contact_access"
+                        (click)="openDialog(element)" title="Preview">
+                        remove_red_eye
+                    </mat-icon>
+                    <mat-icon class="cursor-pointer ml-1" (click)="edit(element)" title="Update"
+                        *ngIf="claims && claims.doceipt_claim_contact_create">
+                        edit
+                    </mat-icon>
+                    <mat-icon class="cursor-pointer ml-1" (click)="openDeleteDialog(element)" title="Delete"
+                        *ngIf="claims && claims.doceipt_claim_contact_delete">
+                        delete_outline
+                    </mat-icon>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <mat-paginator [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="pageEvent($event)"
+            showFirstLastButtons>
+        </mat-paginator>
+
+    </div>
+</div>

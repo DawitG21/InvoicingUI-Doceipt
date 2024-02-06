@@ -1,0 +1,227 @@
+<button class="btn-background" mat-button [useExistingCss]="true" printSectionId="print-index-invoice" ngxPrint>
+  <mat-icon title="Print Invoive">print</mat-icon>&nbsp;Print
+</button>
+
+<mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+<div mat-dialog-content id="print-index-invoice">
+
+  <mat-label>
+    <img class="logo-invoice" [src]="logoUrl">
+    <mat-label class="float-right">
+      <b>Invoice|Receipt|Attachment</b>
+    </mat-label>
+  </mat-label>
+  <mat-divider></mat-divider>
+
+  <div class="mt-2" *ngIf="invoice">
+
+    <div class="row row-size">
+      <div class="col-sm-5 row-size" *ngIf="company">
+        <mat-label>{{ company.displayName }}</mat-label><br>
+        <mat-label *ngIf="company.companyDetail && company.companyDetail.tin">Tin{{ company.companyDetail.tin }}
+        </mat-label><br>
+        <mat-label *ngIf="company.companyDetail && company.companyDetail.addressLine1">
+          {{ company.companyDetail.addressLine1 }}</mat-label><br>
+        <mat-label *ngIf="company.companyDetail && company.companyDetail.dialingCode && company.companyDetail.phone">
+          +{{ company.companyDetail.dialingCode }}-
+          {{ company.companyDetail.phone }}</mat-label><br>
+      </div>
+    </div>
+
+    <div class="row mt-2 row-size">
+      <mat-label class="col-sm-4 row-size">
+        <mat-label class="title-Invoice">Bill To</mat-label><br>
+        {{invoice.message.customer.name}}<br>
+        {{invoice.message.customer.referenceId}}<br>
+        <!-- {{invoice.message.customer.invoiceFees[0].customerGroup.name}}<br> -->
+        {{invoice.message.customer.customerGroup.name}}<br>
+        {{invoice.message.customer.branch.name}}<br>
+      </mat-label>
+
+      <mat-label class="col-sm-3 row-size">
+        <mat-label class="title-Invoice">Ship To</mat-label><br>
+        {{invoice.message.customer.billingAddresses[0].contact.name}}<br>
+
+        <mat-label class="row-size" *ngIf="invoice.message.customer.billingAddresses[0].primaryEmail">
+          {{ (invoice.message.customer.billingAddresses[0].primaryEmail.length>23)? 
+          (invoice.message.customer.billingAddresses[0].primaryEmaill | slice:0:23)+'...':
+          (invoice.message.customer.billingAddresses[0].primaryEmail) }}
+        </mat-label><br>
+
+        <mat-label *ngIf="invoice.message.customer.billingAddresses[0].contact.phoneNumbers.length != 0">
+          {{invoice.message.customer.billingAddresses[0].contact.phoneNumbers[0].dialingCode}}
+          {{invoice.message.customer.billingAddresses[0].contact.phoneNumbers[0].phone}}</mat-label><br>
+        {{invoice.message.customer.billingAddresses[0].relationship}}<br>
+      </mat-label>
+
+      <mat-label class="col-sm-5 row-size">
+        <div class="row">
+          <mat-label class="col-sm-6 title-Invoice">
+            Invoice:<br>
+          </mat-label>
+          <mat-label class="col-sm-6">
+            {{invoice.message.invoice.invoiceNumber}}<br>
+          </mat-label>
+        </div>
+        <div class="row">
+          <mat-label class="col-sm-6 title-Invoice">
+            Invoice Date:<br>
+          </mat-label>
+          <mat-label class="col-sm-6">
+            {{invoice.message.invoice.invoiceDate | date:'yyyy-MM-dd'}}<br>
+          </mat-label>
+        </div>
+        <div class="row">
+          <mat-label class="col-sm-6 title-Invoice">
+            Invoice Due:<br>
+          </mat-label>
+          <mat-label class="col-sm-6">
+            {{invoice.message.invoice.invoiceDueDate | date:'yyyy-MM-dd'}}<br>
+          </mat-label>
+        </div>
+        <div class="row">
+          <mat-label class="col-sm-6 title-Invoice">
+            Financial Period:<br>
+          </mat-label>
+          <mat-label class="col-sm-6">
+            {{invoice.message.financialPeriod.name}}<br>
+          </mat-label>
+        </div>
+      </mat-label>
+    </div>
+
+    <div class="list-service-fee mt-3">
+      <div class="row">
+        <mat-label class="col-sm-3 title-Invoice">
+          Service Item
+        </mat-label>
+        <mat-label class="col-sm-2">
+        </mat-label>
+        <mat-label class="col-sm-3 title-Invoice">
+          Unit Price<br>
+        </mat-label>
+        <mat-label class="col-sm-1 title-Invoice">
+          Qty<br>
+        </mat-label>
+        <mat-label class="col-sm-2 title-Invoice">
+          Amount
+        </mat-label>
+      </div>
+
+      <ng-container *ngFor="let services of invoicePiped; let i = index">
+        <div class="row mt-2">
+          <mat-label class="col-sm-3 title-Invoice">
+            {{services.key}}
+          </mat-label>
+        </div>
+        <ng-container *ngFor="let serviceValue of services.value; let j = index">
+          <div class="row">
+            <mat-label class="col-sm-3">
+              {{serviceValue.name}}
+            </mat-label>
+            <mat-label class="col-sm-2">
+            </mat-label>
+            <mat-label class="col-sm-3">
+              {{serviceValue.amount | number}}
+            </mat-label>
+            <mat-label class="col-sm-1">
+              {{serviceValue.invoiceFee.quantity | number}}
+            </mat-label>
+            <mat-label class="col-sm-2">
+              {{serviceValue.amountAfterQuantity | number: '1.2-3'}}
+            </mat-label>
+          </div>
+
+          <ng-container *ngIf="serviceValue.invoiceFee.discounts.length !== 0">
+            <ng-container *ngFor="let discount of serviceValue.invoiceFee.discounts; let k = index">
+              <div class="row ml-3">
+                <mat-label class="col-sm-3">
+                </mat-label>
+                <mat-label class="col-sm-2">
+                  Disc {{k+1}}
+                </mat-label>
+                <mat-label class="col-sm-3">
+                  {{serviceValue.invoiceFee.discounts[k]}}%
+                </mat-label>
+                <mat-label class="col-sm-1">
+                </mat-label>
+                <mat-label class="col-sm-3">
+                  -{{serviceValue.invoiceFee.discountedAmounts[k] | number: '1.2-3'}}
+                </mat-label>
+              </div>
+            </ng-container>
+          </ng-container>
+
+          <ng-container *ngIf="serviceValue.taxes.length !== 0">
+            <ng-container *ngFor="let tax of serviceValue.taxes; let j = index">
+              <div class="row ml-4">
+                <mat-label class="col-sm-3">
+                </mat-label>
+                <mat-label class="col-sm-2">
+                  {{serviceValue.taxes[j].name}}
+                </mat-label>
+                <mat-label class="col-sm-3">
+                  {{serviceValue.taxes[j].percentValue}}%
+                </mat-label>
+                <mat-label class="col-sm-1">
+                </mat-label>
+                <mat-label class="col-sm-3">
+                  {{serviceValue.netTaxes[j] | number}}
+                </mat-label>
+              </div>
+            </ng-container>
+          </ng-container>
+
+        </ng-container>
+      </ng-container>
+    </div>
+
+    <div class="ml-3">
+      <div class="row mr-8">
+        <mat-label class="col-sm-6"></mat-label>
+        <div class="col-sm-6 custom-table">
+
+          <div class="row">
+            <mat-label class="col-sm-6">Subtotal</mat-label>
+            <mat-label class="col-sm-6 text-danger font-weight-bold">{{invoice.message.services[0].currency}}
+              {{subtotal | number: '1.2-3'}}</mat-label>
+          </div>
+
+          <div class="row">
+            <mat-label class="col-sm-6">Discount</mat-label>
+            <mat-label class="col-sm-6">
+              {{invoice.message.services[0].currency}} {{discount | number: '1.2-3'}}
+            </mat-label>
+          </div>
+
+          <div class="row">
+            <mat-label class="col-sm-6">
+              Tax
+            </mat-label>
+            <mat-label class="col-sm-6">
+              {{invoice.message.services[0].currency}} {{tax | number: '1.2-3'}}
+            </mat-label>
+          </div>
+
+          <div class="row mt-3 pt-3 border border-bottom-0 border-left-0 border-right-0">
+            <mat-label class="col-sm-6">Total</mat-label>
+            <mat-label class="col-sm-6 text-danger font-weight-bold">
+              {{invoice.message.services[0].currency}}
+              {{invoice.message.amountDue | number: '1.2-3'}}
+            </mat-label>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="row footer mt-3 border border-bottom-0 border-right-0 border-left-0">
+      <mat-label class="col-sm-12 row-size">
+        <mat-label class="title-Invoice">Notes</mat-label><br>
+        Cash or Bank transfer method of payment accepted<br><br>
+        <mat-label class="title-Invoice">Terms</mat-label><br>
+        Please pay invoice within 15 days<br>
+      </mat-label>
+    </div>
+
+  </div>

@@ -1,0 +1,351 @@
+<div class="toggle-add-invoice">
+  <div class="collapse show" id="navbarToggleExternalContent">
+    <div class="bg-dark p-4">
+
+      <form class="mt-4" id="formaddinvoice" [formGroup]="form">
+
+        <div class="row">
+
+          <mat-label class="col-sm-4">
+            <mat-slide-toggle color="accent" formControlName="autoGenerate" (change)="setInvoiceNumber($event.checked)"
+              name="autoGenerate">
+              {{message}}
+            </mat-slide-toggle>
+          </mat-label>
+
+          <mat-label class="col-sm-4" [hidden]="!model.financialPeriodId">
+            <small>Starts: {{startDate | date:'yyyy-MM-dd'}}&nbsp;Ends: {{endDate | date:'yyyy-MM-dd'}}</small>
+          </mat-label>
+
+          <mat-label class="col-sm-4"></mat-label>
+        </div>
+
+        <div class="row mt-2">
+
+          <mat-form-field class=" col-sm-4 float-left">
+            <mat-label class="float-left">Invoice Number</mat-label>
+            <input matInput placeholder="e.g G-INV001" formControlName="invoiceNumber" name="invoicenumber">
+          </mat-form-field>
+
+          <mat-form-field class="col-sm-4">
+            <mat-label>Search Financial Period</mat-label>
+            <input type="text" placeholder="Financial Period" matInput [formControl]="financialPeriodName"
+              [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let fp of financialPeriods" [value]="fp.name">
+                {{fp.name}}
+              </mat-option>
+            </mat-autocomplete>
+            <mat-error *ngIf="financialPeriodName!.invalid">Financial period donesn't exist</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col-sm-3">
+            <mat-label>Search Customer</mat-label>
+            <input class="white" matInput placeholder="Click the search icon then enter to find a student"
+              formControlName="customerId" value="{{customer.name}}" name="customer" aria-label="customername" readonly
+              required>
+            <mat-error *ngIf="getCustomer!.invalid">{{getErrorMessage('customerId')}}</mat-error>
+          </mat-form-field>
+
+          <button mat-icon-button class="float-right mt-4 cursor-pointer" [disabled]="customerSearcDisabled"
+            (click)="openDialog()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </div>
+
+        <div class="row mt-2">
+
+          <mat-form-field class="col-sm-4 mt-3">
+            <mat-label class="float-left">Invoice Date</mat-label>
+            <input class="white" matInput [matDatepicker]="dpInvoiceDate" [max]="today"
+              [matDatepickerFilter]="invDateFilter" (dateInput)="onInvoiceDate('input', $event)"
+              (dateChange)="onInvoiceDate('change', $event)" placeholder="Invoice date" formControlName="invoiceDate"
+              readonly required>
+
+            <mat-datepicker-toggle matSuffix [for]="dpInvoiceDate" class="white"></mat-datepicker-toggle>
+            <mat-datepicker touchUi #dpInvoiceDate [disabled]="financialPeriodName!.invalid"></mat-datepicker>
+            <mat-error *ngIf="getInvoiceDate!.invalid">{{getRequiredErrorMessage('invoiceDate')}}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col-sm-4 mt-3">
+            <mat-label class="float-left">Due Date</mat-label>
+            <input class="white" matInput [matDatepicker]="dpDueDate" [matDatepickerFilter]="invDueDateFilter"
+              placeholder="Invoice due date" formControlName="invoiceDueDate" readonly>
+
+            <mat-datepicker-toggle matSuffix [for]="dpDueDate" class="white"></mat-datepicker-toggle>
+            <mat-datepicker touchUi #dpDueDate [disabled]="getInvoiceDate!.invalid"></mat-datepicker>
+            <mat-error *ngIf="getInvoiceDueDate!.invalid">{{getDueDateErrorMessage()}}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col-sm-4 mt-3">
+            <mat-label>Search Payment Cycle</mat-label>
+            <input type="text" placeholder="Payment cycle" matInput [formControl]="paymentCycleName"
+              [matAutocomplete]="pacycle">
+            <mat-autocomplete #pacycle="matAutocomplete">
+              <mat-option *ngFor="let pc of paymentCycles" [value]="pc.name">
+                {{pc.name}}
+              </mat-option>
+            </mat-autocomplete>
+            <mat-error *ngIf="paymentCycleName!.invalid">Payment cycle doesn't exist</mat-error>
+          </mat-form-field>
+        </div>
+      </form>
+
+      <div class="row">
+        <div class="col">
+          <button mat-button class="float-right btn-background" (click)="validateInvoiceFees(); changeRibbonState();"
+            data-toggle="collapse" data-target="#navbarToggleExternalContent">
+            Generate
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <nav class="navbar navbar-dark bg-dark">
+    <div class="row ribbon-row">
+      <mat-label class="col-sm-4">
+        <ng-container *ngIf="!openRibbon">{{customer.name}}</ng-container>
+      </mat-label>
+
+      <ng-container *ngIf="!openRibbon">
+        <mat-label *ngIf="financialPeriod" class="col-sm-4">
+          <b>Starts:&nbsp;{{startDate | date:'yyyy-MM-dd'}}&nbsp;Ends:&nbsp;{{endDate | date:'yyyy-MM-dd'}}</b>
+        </mat-label>
+      </ng-container>
+
+      <div class="col-sm-4 float-right">
+        <ng-container *ngIf="!openRibbon">
+
+          <button mat-button class="btn btn-xs white" (click)="openAddServicesDialog()"
+            [disabled]="btnAddServiceDisabled">
+            <mat-icon title="Add Services">add</mat-icon>
+          </button>
+
+          <button mat-button class="btn btn-xs white" (click)="openInvoicePreview()" [disabled]="btnPreviewDisabled">
+            <mat-icon title="Preview Invoice">remove_red_eye</mat-icon>
+          </button>
+
+          <button mat-button class="btn btn-xs white" [disabled]="saveStatus" (click)="openSaveDialog()">
+            <mat-icon title="Save Invoice">save</mat-icon>
+          </button>
+
+          <button mat-button class="btn btn-xs white">
+            <mat-icon title="Share Invoice">share</mat-icon>
+          </button>
+        </ng-container>
+      </div>
+    </div>
+  </nav>
+
+  <div class="btn-ribbon" data-toggle="collapse" data-target="#navbarToggleExternalContent"
+    aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation"
+    (click)="changeRibbonState()">
+    <mat-icon class="toolbar-drawer-caret">keyboard_arrow_down</mat-icon>
+  </div>
+</div>
+
+<div class="main-form">
+
+  <form id="formaddinvoice" class="list-service-fee mt-3">
+
+    <div class="row  mb-3 header-div" *ngIf="selectedServices.length !== 0">
+      <mat-label class="col-sm-1">
+      </mat-label>
+
+      <mat-label class="col-sm-3">
+        Service Item
+      </mat-label>
+
+      <mat-label class="col-sm-2">
+        Quantity
+      </mat-label>
+
+      <mat-label class="col-sm-3">
+        Unit Price
+      </mat-label>
+
+      <mat-label class="col-sm-3">
+        Amount
+      </mat-label>
+    </div>
+
+    <ng-container *ngFor="let service of pipeSelectedServices">
+      <div class="ml-3">
+        <mat-label class="title-Invoice">
+          {{service.key}}
+        </mat-label>
+
+        <ng-container *ngFor="let servicefee of service.value; let j = index;">
+          <div class="row">
+            <div class="col-sm-1">
+              <mat-label class="btn-group">
+                <button mat-button class="btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <mat-icon color="primary" class="mt-3" title="More">more_vert</mat-icon><br>
+                </button>
+
+                <mat-label class="dropdown-menu dropdown-menu-right">
+                  <div *ngIf="claims && claims.doceipt_claim_invoice_discount">
+                    <button class="dropdown-item" mat-button (click)="addDiscounts(servicefee)">Add
+                      Discount</button>
+                  </div>
+                  <button class="dropdown-item" mat-button (click)="ServiceRemoved(servicefee)">Delete</button>
+                </mat-label>
+              </mat-label>
+            </div>
+
+            <mat-label class="col-sm-3 mt-3 float-left text">
+              {{servicefee.service.name}}
+            </mat-label>
+
+            <mat-form-field appearance="fill" class="col-sm-2 float-left">
+              <input matInput type="number" min="1" name="quantity" [(ngModel)]="servicefee.invoiceFee.quantity"
+                (change)="updateQuantity(servicefee, j)">
+            </mat-form-field>
+
+            <mat-label class="col-sm-3 mt-3 float-left text">
+              {{servicefee.amount | number}}
+            </mat-label>
+
+            <mat-label class="col-sm-3 mt-3 float-left text">
+              {{servicefee.amountAfterQuantity | number}}
+            </mat-label>
+          </div>
+          <br>
+
+          <ng-container *ngIf="servicefee.taxInclusive">
+            <ng-container
+              *ngFor="let discount of servicefee.invoiceFee.discounts; let i = index; trackBy: customTrackBy">
+              <div class="row">
+                <mat-label class="col-sm-1">
+                  <button mat-button class="btn btn-default " (click)="deleteDiscount(servicefee, i)">
+                    <mat-icon color="primary" title="Remove Discount">clear</mat-icon><br>
+                  </button>
+                </mat-label>
+
+                <mat-form-field appearance="fill" class="col-sm-3">
+                  <mat-label class="text">
+                    Discount(%)
+                  </mat-label>
+                  <input matInput type="number" min="0" max="100" name="discount{{i}}"
+                    [(ngModel)]="servicefee.invoiceFee.discounts[i]" (change)="calculateDiscounts()">
+                </mat-form-field>
+
+                <mat-label class="col-sm-2"></mat-label>
+
+                <mat-label class="col-sm-3 text">
+                  <mat-label></mat-label><br>
+                  {{servicefee.invoiceFee.discountedAmounts[i] | number}}
+                </mat-label>
+
+                <mat-label class="col-sm-3 text" *ngIf=" servicefee.invoiceFee.discountedAmounts[i]">
+                  <mat-label></mat-label><br>
+                  -{{servicefee.invoiceFee.discountedAmounts[i] | number}}
+                </mat-label>
+              </div>
+            </ng-container>
+            <br>
+
+            <ng-container *ngFor="let x of servicefee.taxes; let y = index">
+              <div class="row">
+                <mat-label class="col-sm-9 text-align text">
+                  {{servicefee.taxes[y].name}}
+                  ({{servicefee.taxes[y].percentValue | number}}%)
+                </mat-label>
+
+                <mat-label class="col-sm-3 text">
+                  {{servicefee.netTaxes[y] | number}}
+                </mat-label>
+              </div>
+            </ng-container>
+
+            <div class="row">
+              <mat-label class="col-sm-9 text-align text">
+                Total Amount
+              </mat-label>
+
+              <mat-label class="col-sm-3 text">
+                {{servicefee.totalAmount | number}}
+              </mat-label>
+            </div>
+          </ng-container>
+          <br>
+
+          <ng-container *ngIf="!servicefee.taxInclusive">
+            <ng-container
+              *ngFor="let discount of servicefee.invoiceFee.discounts; let i = index; trackBy: customTrackBy">
+              <div class="row">
+                <mat-label class="col-sm-1">
+                  <button mat-button class="btn btn-default " (click)="deleteDiscount(servicefee, i)">
+                    <mat-icon color="primary">clear</mat-icon><br>
+                  </button>
+                </mat-label>
+
+                <mat-form-field>
+                  <mat-label class="col-sm-3 text">
+                    Discount(%)</mat-label>
+                  <input matInput type="number" min="0" max="100" name="Discount{{i}}"
+                    [(ngModel)]="servicefee.invoiceFee.discounts[i]" (change)="calculateDiscounts()"><br>
+
+                </mat-form-field>
+
+                <mat-label class="col-sm-2">
+                </mat-label>
+
+                <mat-label class="col-sm-3 text">
+                  <mat-label></mat-label><br>
+                  {{servicefee.invoiceFee.discountedAmounts[i] | number}}
+                </mat-label>
+
+                <mat-label class="col-sm-3 text">
+                  <mat-label></mat-label><br>
+                  -{{servicefee.invoiceFee.discountedAmounts[i] | number}}
+                </mat-label>
+              </div>
+            </ng-container>
+
+            <ng-container *ngIf="servicefee.taxes.length != 0">
+              <ng-container *ngFor="let x of servicefee.taxes; let y = index">
+                <div class="row">
+                  <mat-label class="col-sm-9 text-align text">
+                    {{servicefee.taxes[y].name}}
+                    ({{servicefee.taxes[y].percentValue | number}}%)
+                  </mat-label>
+
+                  <mat-label class="col-sm-3 text">
+                    {{servicefee.netTaxes[y] | number}}
+                  </mat-label>
+                </div>
+              </ng-container>
+            </ng-container>
+
+            <div class="row">
+              <mat-label class="col-sm-9 text-align text">
+                Total Amount
+              </mat-label>
+
+              <mat-label class="col-sm-3 text">
+                {{servicefee.totalAmount | number}}
+              </mat-label>
+            </div>
+          </ng-container>
+        </ng-container>
+      </div>
+    </ng-container>
+
+
+    <div class="row total-row" *ngIf="selectedServices.length !== 0">
+      <mat-label class="col-sm-6"></mat-label>
+
+      <mat-label class="col-sm-3 text">
+        Total
+      </mat-label>
+
+      <mat-label class="col-sm-3 text">
+        {{total | number}}
+      </mat-label>
+    </div>
+
+  </form>
+</div>

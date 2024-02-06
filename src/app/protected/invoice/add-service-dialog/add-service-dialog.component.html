@@ -1,0 +1,19 @@
+<h1 mat-dialog-title>Services</h1>
+<p mat-dialog-subtitle class="text-muted">You can select more services here.
+</p>
+
+<div mat-dialog-content>
+    <ng-container *ngFor="let invoiceFee of serviceFees">
+        <ng-container *ngIf="invoiceFee.service.mandatory == false">
+            <mat-checkbox class="ml-3" [value]="invoiceFee" [checked]="invoiceFee.checked"
+                (change)="onCheckChange($event, invoiceFee)" color="primary">
+                {{invoiceFee.name}}
+            </mat-checkbox>
+            <br>
+        </ng-container>
+    </ng-container>
+</div>
+
+<div mat-dialog-actions align="end" class="w-100 mt-4">
+    <button mat-button [mat-dialog-close]="serviceFees">Done</button>
+</div>

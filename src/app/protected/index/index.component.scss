@@ -1,0 +1,138 @@
+@import "../../../styles.common-variables.scss";
+.notch {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 310px;
+    height: 30px;
+    background-color: $notch-bg-color;
+    border-radius: 0 0 28px 28px;
+    transform: translateX(-50%);
+    color: #ffffff;
+    font-size: 18px;
+    padding: 0 20px;
+    z-index: 1;
+}
+
+.notch::before,
+.notch::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -7px;
+    width: 14px;
+    height: 7px;
+    background-size: 50% 100%;
+    background-repeat: no-repeat;
+    background-image: radial-gradient(circle at 0 100%, transparent 6px, $notch-bg-color 7px);
+}
+
+.notch::after {
+    left: 100%;
+    margin-right: corner-sizepx;
+    background-image: radial-gradient(circle at 100% 100%, transparent 6px, $notch-bg-color 7px);
+}
+
+.notch-dropdown {
+    color: inherit;
+}
+
+.active{
+    color: rgb(221, 243, 26);
+    text-decoration: double;
+    border-bottom: 1px solid rgb(221, 243, 26);
+    background-color: #49497a;
+}
+
+.div-scroll{
+    height: 500px;
+    overflow-y: scroll;
+}
+
+.notch-dropdown.focus,
+.notch-dropdown:focus {
+    box-shadow: none;
+}
+
+.notch-dropdown:hover {
+    color: $notch-highlight-color;
+}
+
+a {
+    text-decoration: none;
+    color: #000000;
+}
+
+.card {
+    background-color: $app-theme;
+}
+
+.card-header,
+.card-body {
+    padding: 0 !important;
+}
+
+[data-toggle="collapse"][aria-expanded="true"] > .rotate-icon {
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
+.size {
+    font-size: 25px;
+}
+
+.scrollbar {
+    overflow-y: scroll !important;
+}
+
+.collapse {
+    overflow-x: hidden;
+}
+
+.mat-spinner {
+    ::ng-deep circle {
+        stroke: white;
+    }
+}
+
+::ng-deep .mat-progress-bar-fill::after {
+    background-color: #616060;
+}
+
+::ng-deep .mat-progress-bar-buffer {
+    background: #e4e8eb;
+}
+
+::ng-deep .mat-progress-bar {
+    border-radius: 2px;
+}
+
+.import-progress {
+    width: 300px;
+    height: 50px;
+    position: absolute;
+    bottom: 0;
+    left: 0px;
+    background-color: #49497a;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+}
+
+.span-imp-prog {
+    color: white;
+    font-size: 12px;
+}
+
+.spinner {
+    float: right;
+    margin-left: 8px;
+    margin-top: 5px;
+}
+
+.progress {
+    margin-top: 12px;
+}

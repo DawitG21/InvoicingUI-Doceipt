@@ -1,0 +1,78 @@
+<div class="main-content">
+    <div class="content-toolbar">
+        <p class="toolbar-title">Payment </p>
+
+        <button mat-button color="primary" class="float-right ml-1" (click)="addPayment()"
+            *ngIf="claims && claims.doceipt_claim_payment_access">
+            Create
+        </button>
+    </div>
+</div>
+
+<div class="main-content">
+    <mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+
+    <div class="mt-4">
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-100">
+
+            <ng-container matColumnDef="invoiceNumber">
+                <th mat-header-cell *matHeaderCellDef>Invoice</th>
+                <td mat-cell *matCellDef="let element">
+                    <div class="with-icon">
+                        {{element.invoiceNumber}}
+                        <mat-icon class="cursor-pointer ml-1" color="primary" title="batch invoice"
+                            *ngIf="element.batchInvoice">linear_scale</mat-icon>
+                    </div>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="invoiceDate">
+                <th mat-header-cell *matHeaderCellDef> Invoice Date </th>
+                <td mat-cell *matCellDef="let element"> {{element.invoiceDate | date: 'yyyy-MM-dd'}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="customer.name">
+                <th mat-header-cell *matHeaderCellDef> Customer </th>
+                <td mat-cell *matCellDef="let element"> {{element.customer.name}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="currency">
+                <th mat-header-cell *matHeaderCellDef> Currency </th>
+                <td mat-cell *matCellDef="let element"> {{element.currency}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="totalAmount">
+                <th mat-header-cell *matHeaderCellDef> Amount </th>
+                <td mat-cell *matCellDef="let element"> {{element.totalAmount}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="dueAmount">
+                <th mat-header-cell *matHeaderCellDef> Due Amount </th>
+                <td mat-cell *matCellDef="let element">
+                    <mat-chip-list>
+                        <mat-chip *ngIf="!element.voided && element.dueAmount!==0" color="accent" selected>
+                            {{element.dueAmount}}</mat-chip>
+                        <mat-chip *ngIf="!element.voided && element.dueAmount===0" color="primary" selected>Paid
+                        </mat-chip>
+                        <mat-chip *ngIf="element.voided" color="default" selected>Voided</mat-chip>
+                    </mat-chip-list>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions" stickyEnd>
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let element">
+                    <mat-icon class="cursor-pointer ml-1" (click)="openDialog(element)" title="Preview">remove_red_eye
+                    </mat-icon>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <mat-paginator [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" [pageSizeOptions]="pageSizeOptions"
+            showFirstLastButtons (page)="pageEvent($event)"></mat-paginator>
+
+    </div>
+</div>

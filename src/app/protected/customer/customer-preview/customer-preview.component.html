@@ -1,0 +1,64 @@
+<h1 mat-dialog-title>Customer Preview</h1>
+
+<div mat-dialog-content>
+  <mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+  <div class="row">
+    <div class="col-sm-12 mt-2">
+      <a class="f-lt cursor-pointer" data-toggle="collapse" data-target="#collapseEight" aria-expanded="false"
+        aria-controls="collapseOne">
+        <mat-icon class="menu-icon rotate-icon size" aria-hidden="false" aria-label="keyboard_arrow_right icon"
+          (click)="show()">
+          keyboard_arrow_right</mat-icon>
+      </a>
+      <div>
+        <h6 class="card-title">
+          {{customer.name}} - {{customer.referenceId}}
+        </h6>
+        <h6 class="card-subtitle mb-2 text-muted mls-4">
+          {{customer.customerGroup.name}}
+        </h6>
+        <div *ngIf="isShow" class="mls-4" id="collapseEight">
+          <h6 class="card-subtitle mb-2 text-muted">
+            {{customer.branch.name}}
+          </h6>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 mt-4">
+      <h6 class="card-title mls-4">
+        Contact
+      </h6>
+      <hr class="ml-4">
+      <ng-container *ngFor="let c of customer.billingAddresses; let i = index">
+        <h6 class="card-subtitle mb-2 text-muted mls-4">
+          <mat-icon class="icn-size mt-2 mr-2">contacts</mat-icon>{{c.contact.name}} - {{c.relationship | titlecase}}
+        </h6>
+        <div *ngIf="isShow" class="mls-4" id="collapseEight">
+          <h6 class="card-subtitle mb-2 text-muted" *ngIf="c.primaryEmail">
+            <mat-icon class="icn-size mt-2 mr-2">email</mat-icon>{{ c.primaryEmail }}
+          </h6>
+          <h6 class="card-subtitle mb-2 text-muted" *ngIf="c.primaryPhone">
+            <mat-icon class="icn-size mt-2 mr-2">phone</mat-icon>{{c.primaryPhone}}
+          </h6>
+        </div>
+        <hr class="ml-4">
+      </ng-container>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <label class="bisque mt-2 mls-4">
+        <span matBadgeColor="warn" matBadge="{{dueInvoices.length}}" matBadgeOverlap="false">Due Invoices</span>
+      </label>
+      <ng-container *ngFor="let inv of dueInvoices; let i = index">
+
+        <ng-container *ngIf="dueInvoices.length > 0">
+          <app-invoice-carousel [invoiceList]="dueInvoices"></app-invoice-carousel>
+        </ng-container>
+
+      </ng-container>
+    </div>
+  </div>
+</div>

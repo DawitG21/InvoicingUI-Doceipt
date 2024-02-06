@@ -1,0 +1,142 @@
+<div class="main-content">
+    <div class="content-toolbar">
+
+        <button mat-button color="primary" (click)="goBack()">
+            <mat-icon aria-hidden="false" aria-label="keyboard_arrow_left icon">keyboard_arrow_left</mat-icon>New Role
+        </button>
+
+        <button mat-button color="primary" class="float-right ml-1" (click)="save()">
+            Save
+        </button>
+
+    </div>
+</div>
+
+<mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+<form id="f" class="mt-4" [formGroup]="form">
+
+    <mat-form-field appearance="outline" class="col-sm-12">
+        <mat-label>Role Name</mat-label>
+        <input matInput placeholder="e.g Cashier" formControlName="name" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-sm-12">
+        <mat-label>Description</mat-label>
+        <textarea matInput placeholder="Give a brief description of the Role" maxlength="240" rows="4"
+            formControlName="description"></textarea>
+    </mat-form-field>
+
+    <mat-tab-group *ngIf="claimsPiped">
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon class="example-tab-icon">bookmark_border</mat-icon>
+                Basics
+            </ng-template>
+            <div class="mt-3">
+                <ng-container *ngFor="let basics of claimsPiped.Basics">
+                    <mat-checkbox class="ml-3" [value]="basics" (change)="onCheckChange($event, 'claim')"
+                        color="primary">
+                        {{basics.name}}<br>
+                        <mat-label class="text-muted">{{basics.flag.description}}</mat-label>
+                    </mat-checkbox><br>
+                </ng-container>
+            </div>
+        </mat-tab>
+
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon class="example-tab-icon">build</mat-icon>
+                Config
+            </ng-template>
+            <div class="mt-3">
+                <ng-container *ngFor="let config of claimsPiped.Config">
+                    <mat-checkbox class="ml-3" [value]="config" (change)="onCheckChange($event, 'claim')"
+                        color="primary">
+                        {{config.name}}<br>
+                        <mat-label class="text-muted">{{config.flag.description}}</mat-label>
+                    </mat-checkbox><br>
+                </ng-container>
+            </div>
+        </mat-tab>
+
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon class="example-tab-icon">person_outline</mat-icon>
+                Customer
+            </ng-template>
+            <div class="mt-3">
+                <ng-container *ngFor="let customer of claimsPiped.Customer">
+                    <mat-checkbox class="ml-3" [value]="customer" (change)="onCheckChange($event, 'claim')"
+                        color="primary">
+                        {{customer.name}}<br>
+                        <mat-label class="text-muted">{{customer.flag.description}}</mat-label>
+                    </mat-checkbox><br>
+                </ng-container>
+            </div>
+        </mat-tab>
+
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon class="example-tab-icon">receipt</mat-icon>
+                Invoice
+            </ng-template>
+            <div class="mt-3">
+                <ng-container *ngFor="let invoice of claimsPiped.Invoice">
+                    <mat-checkbox class="ml-3" [value]="invoice" (change)="onCheckChange($event, 'claim')"
+                        color="primary">
+                        {{invoice.name}}<br>
+                        <mat-label class="text-muted">{{invoice.flag.description}}</mat-label>
+                    </mat-checkbox><br>
+                </ng-container>
+            </div>
+        </mat-tab>
+
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon class="example-tab-icon">attach_money</mat-icon>
+                Payment Option
+            </ng-template>
+            <div class="mt-3">
+                <ng-container *ngFor="let po of claimsPiped.PaymentOption">
+                    <mat-checkbox class="ml-3" [value]="po" (change)="onCheckChange($event, 'claim')" color="primary">
+                        {{po.name}}<br>
+                        <mat-label class="text-muted">{{po.flag.description}}</mat-label>
+                    </mat-checkbox><br>
+                </ng-container>
+            </div>
+        </mat-tab>
+
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon class="example-tab-icon">room_service</mat-icon>
+                Service
+            </ng-template>
+            <div class="mt-3">
+                <ng-container *ngFor="let service of claimsPiped.Service">
+                    <mat-checkbox class="ml-3" [value]="service" (change)="onCheckChange($event, 'claim')"
+                        color="primary">
+                        {{service.name}}<br>
+                        <mat-label class="text-muted">{{service.flag.description}}</mat-label>
+                    </mat-checkbox><br>
+                </ng-container>
+            </div>
+        </mat-tab>
+
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon class="example-tab-icon">timeline</mat-icon>
+                Report
+            </ng-template>
+            <div class="mt-3">
+                <ng-container *ngFor="let roleReport of roleReports">
+                    <mat-checkbox class="ml-3" [value]="roleReport" (change)="onCheckChange($event, 'report')"
+                        color="primary">
+                        {{roleReport.name}}<br>
+                        <mat-label class="text-muted">{{roleReport.description}}</mat-label>
+                    </mat-checkbox><br>
+                </ng-container>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+
+</form>

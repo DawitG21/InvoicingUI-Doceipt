@@ -1,0 +1,100 @@
+<div class="main-content">
+    <div class="content-toolbar content-toolbar-visible">
+        <p class="toolbar-title">Service Fee</p>
+
+        <div class="float-right input-group input-group-xs w-auto" *ngIf="showFilter" (click)="$event.stopPropagation()">
+            <button type="button" color="primary" mat-button #matMenuTrigger [matMenuTriggerFor]="menu"><i
+                    class="material-icons"> filter_list</i>
+            </button>
+            <mat-menu #menu='matMenu' [formGroup]="form" xPosition="before" class="px-4 py-3">
+                <ng-container class="row">
+
+                    <mat-form-field appearance="outline" class="col-sm-12" (click)="$event.stopPropagation()">
+                        <mat-label>Search Customer Group</mat-label>
+                        <input type="text" placeholder="Customer group" matInput [formControl]="customerGroupName"
+                            [matAutocomplete]="cgroup" (click)="$event.stopPropagation()">
+                        <mat-autocomplete #cgroup="matAutocomplete">
+                            <mat-option *ngFor="let cg of customerGroupList" [value]="cg.name">
+                                {{cg.name}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngIf="customerGroupName!.invalid">Customer Group donesn't exist</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="col-sm-12" (click)="$event.stopPropagation()">
+                        <mat-label>Search Payment Cycle</mat-label>
+                        <input type="text" placeholder="Payment cycle" matInput [formControl]="paymentCycleName"
+                            [matAutocomplete]="pcycle" (click)="$event.stopPropagation()">
+                        <mat-autocomplete #pcycle="matAutocomplete">
+                            <mat-option *ngFor="let pc of paymentCycles" [value]="pc.name">
+                                {{pc.name}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngIf="paymentCycleName!.invalid">Payment cycle donesn't exist</mat-error>
+                    </mat-form-field>
+
+                </ng-container>
+
+                <div class="col-sm-8">
+                    <button mat-raised-button color="primary" class="float-right ml-1" (click)="filterServiceFee()">
+                        <mat-icon>search</mat-icon> Search
+                    </button>
+                </div>
+
+            </mat-menu>
+        </div>
+
+        <button mat-button color="primary" class="float-right ml-1" (click)="addServiceFee()"
+            *ngIf="claims && claims.doceipt_claim_servicefee_create">
+            Create
+        </button>
+    </div>
+</div>
+
+
+<div class="main-content">
+    <mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+    <div class="mt-4">
+        <table mat-table matSort [dataSource]="dataSource" class="mat-elevation-z8 w-100">
+
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Service Fee </th>
+                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="amount">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Amount </th>
+                <td mat-cell *matCellDef="let element"> {{element.amount}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="description">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+                <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions" stickyEnd>
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let element; let i = index">
+                    <mat-icon class="cursor-pointer ml-1" (click)="openDialog(element)" title="Preview"
+                        data-toggle="modal" data-target="#detailPreview">
+                        remove_red_eye
+                    </mat-icon>
+                    <mat-icon class="cursor-pointer ml-1" (click)="edit(element, i)" title="Update"
+                        *ngIf="claims && claims.doceipt_claim_servicefee_create">
+                        edit
+                    </mat-icon>
+                    <mat-icon class="cursor-pointer ml-1" (click)="openDeleteDialog(element)" title="Delete"
+                        *ngIf="claims && claims.doceipt_claim_servicefee_delete">
+                        delete_outline
+                    </mat-icon>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <mat-paginator [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="pageEvent($event)"
+            showFirstLastButtons></mat-paginator>
+    </div>
+</div>

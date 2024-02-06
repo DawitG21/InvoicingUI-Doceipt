@@ -1,0 +1,58 @@
+<div mat-dialog-content>
+
+  <div>
+    <mat-label class="font-preview mb-3">Branch Preview</mat-label>
+    <mat-icon class="float-right font-preview cursor-pointer" title="Close Preview" color="primary" (click)="close()">
+      clear</mat-icon>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <div class="modal-body">
+
+    <h1 class="text-center">
+      <mat-icon color="primary" style="font-size: 50px;">home</mat-icon>
+    </h1>
+
+    <div class="row">
+      <mat-label class="col-sm-6">
+        <mat-label class="float-right col-form-label">Name</mat-label>
+      </mat-label>
+      <mat-label class="col-sm-6 col-form-label">{{model.name}}</mat-label>
+    </div>
+
+    <div class="row">
+      <mat-label class="col-sm-6">
+        <mat-label class="float-right col-form-label">Email</mat-label>
+      </mat-label>
+      <mat-label class="col-sm-6 col-form-label" *ngIf="model.email">
+        {{ (model.email.length>20)? (model.email | slice:0:20)+'...':(model.email) }}
+      </mat-label>
+    </div>
+
+    <div class="row">
+      <mat-label class="col-sm-6">
+        <mat-label class="float-right col-form-label">Address</mat-label>
+      </mat-label>
+      <mat-label class="col-sm-6 col-form-label" [innerHtml]="formatAddress()"></mat-label>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <div>
+      <mat-label><b>Machines</b></mat-label>
+      <p>
+        <small class="text-muted">
+          A list of machines assigned to this branch.
+        </small>
+      </p>
+      <div *ngIf="model.message.machines" class="row mt-2">
+        <mat-label *ngFor="let m of model.message.machines; let i = index" class="col-sm-8 text-muted">
+          <p class="border p-2">{{m.name}} &bull; {{m.machineNo}}</p>
+        </mat-label>
+      </div>
+    </div>
+
+  </div>
+
+</div>

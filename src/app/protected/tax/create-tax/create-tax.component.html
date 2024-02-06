@@ -1,0 +1,36 @@
+<div class="main-content">
+    <div class="content-toolbar">
+
+        <button mat-button color="primary" (click)="goBack()">
+            <mat-icon aria-hidden="false" aria-label="keyboard_arrow_left icon">keyboard_arrow_left</mat-icon>New Tax
+        </button>
+
+        <button mat-button color="primary" class="float-right ml-1" [disabled]="saveStatus" (click)="save()">
+            Save
+        </button>
+    </div>
+</div>
+
+<mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+<form id="f" class="mt-4" *ngIf="model" [formGroup]="form">
+
+    <mat-form-field appearance="outline" class="col-sm-6">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" required placeholder="e.g VAT, Service Charge" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-sm-6">
+        <mat-label>Rate %</mat-label>
+        <input matInput type="number" min="0" max="100" formControlName="percentValue" required placeholder="e.g. 5" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-sm-12">
+        <mat-label>Description</mat-label>
+        <textarea matInput placeholder="A brief description of the Tax." formControlName="description"></textarea>
+    </mat-form-field>
+
+    <mat-slide-toggle formControlName="isActive" checked="{{status}}" class="ml-3" color="primary"
+        (change)="setStatus($event.checked)">
+        {{message}}
+    </mat-slide-toggle>
+</form>

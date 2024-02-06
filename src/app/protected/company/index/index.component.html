@@ -1,0 +1,236 @@
+<div class="main-content">
+    <div class="content-toolbar">
+
+        <p class="toolbar-title">Company</p>
+        <button mat-button color="primary" class="float-right ml-1" (click)="goManageOrg()"
+            *ngIf="claims && claims.doceipt_user_isOwner">
+            Manage
+        </button>
+
+        <button mat-button color="primary" class="float-right ml-1" (click)="create()"
+            *ngIf="claims && claims.doceipt_user_isOwner">
+            Create
+        </button>
+
+        <button mat-button color="primary" class="float-right ml-1" (click)="sendMessages()"
+            *ngIf="claims && claims.doceipt_user_isOwner">
+            Send Email
+        </button>
+
+    </div>
+</div>
+
+<mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+<div class="main-content mt-4" *ngIf="company">
+    <mat-card>
+
+        <ng-container *ngIf="claims && claims.doceipt_user_isOwner">
+
+            <button class="float-right mr-5" mat-icon-button color="primary" aria-label="Add Detail"
+                *ngIf="!company.companyDetail" (click)="goAddDetail()">
+                <mat-icon>add</mat-icon> Add
+            </button>
+
+            <button class="float-right mr-5" mat-icon-button color="primary" aria-label="Edit Detail"
+                *ngIf="company.companyDetail" (click)="goEditDetail()">
+                <mat-icon>edit</mat-icon> Edit
+            </button>
+
+        </ng-container>
+
+        <mat-card-header>
+
+            <mat-card-title>Company Detail</mat-card-title>
+            <mat-card-subtitle>
+                Personalize company by adding more information such as TIN/RC #, address and more.
+            </mat-card-subtitle>
+
+        </mat-card-header>
+
+        <mat-card-content>
+
+            <div class="row">
+                <mat-card class="col-sm-4 mat-elevation-z0">
+                    <mat-card-header>
+                        <div mat-card-avatar class="example-header-image">
+                            <mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon>
+                        </div>
+                        <mat-card-subtitle>{{company.displayName}}</mat-card-subtitle>
+                    </mat-card-header>
+                </mat-card>
+
+                <mat-card class="col-sm-4 mat-elevation-z0" *ngIf="company.companyDetail">
+                    <mat-card-header>
+                        <div mat-card-avatar class="example-header-image">
+                            <mat-icon aria-hidden="false" aria-label="Example home icon">receipt_long</mat-icon>
+                        </div>
+                        <mat-card-subtitle *ngIf="company.companyDetail.tin">Tin -
+                            {{company.companyDetail.tin}}
+                        </mat-card-subtitle>
+                    </mat-card-header>
+                </mat-card>
+
+                <mat-card class="col-sm-4 mat-elevation-z0">
+                    <mat-card-header>
+                        <div mat-card-avatar class="example-header-image">
+                            <mat-icon aria-hidden="false" aria-label="Example home icon">attach_money</mat-icon>
+                        </div>
+                        <mat-card-subtitle>Currency - {{company.currency}}</mat-card-subtitle>
+                    </mat-card-header>
+                </mat-card>
+            </div>
+
+            <div class="row" *ngIf="company.companyDetail">
+                <mat-card class="col-sm-4 mat-elevation-z0">
+                    <mat-card-header>
+                        <div mat-card-avatar class="example-header-image">
+                            <mat-icon aria-hidden="false" aria-label="Example home icon">email</mat-icon>
+                        </div>
+                        <mat-card-subtitle *ngIf="company.companyDetail.email">
+                            {{ (company.companyDetail.email.length>30)?
+                            (company.companyDetail.email | slice:0:30)+'...':
+                            (company.companyDetail.email) }}
+                        </mat-card-subtitle>
+
+                    </mat-card-header>
+                </mat-card>
+
+                <mat-card class="col-sm-4 mat-elevation-z0">
+                    <mat-card-header>
+                        <div mat-card-avatar class="example-header-image">
+                            <mat-icon aria-hidden="false" aria-label="Example home icon">phone</mat-icon>
+                        </div>
+                        <mat-card-subtitle *ngIf="company.companyDetail.dialingCode">
+                            {{company.companyDetail.dialingCode}} {{company.companyDetail.phone}}
+                        </mat-card-subtitle>
+                    </mat-card-header>
+                </mat-card>
+
+                <mat-card class="col-sm-4 mat-elevation-z0">
+                    <mat-card-header>
+                        <div mat-card-avatar class="example-header-image">
+                            <mat-icon aria-hidden="false" aria-label="Example home icon">language</mat-icon>
+                        </div>
+                        <mat-card-subtitle *ngIf="company.companyDetail.website">
+                            {{company.companyDetail.website}}
+                        </mat-card-subtitle>
+                    </mat-card-header>
+                </mat-card>
+
+            </div>
+
+            <mat-card class="mat-elevation-z0">
+
+                <mat-card-header>
+                    <mat-card-title>Company Templates</mat-card-title>
+                    <mat-card-subtitle>
+                        Your company templates.
+                    </mat-card-subtitle>
+                </mat-card-header>
+
+                <mat-card-content>
+
+                    <mat-tab-group *ngIf="templatesPiped">
+                        <mat-tab>
+                            <ng-template mat-tab-label>
+                                <mat-icon class="example-tab-icon">bookmark_border</mat-icon>
+                                Invoice
+                            </ng-template>
+                            <div class="mt-3">
+                                <ng-container *ngFor="let invoice of templatesPiped.Invoice">
+                                    <mat-radio-group aria-labelledby="example-radio-group-label"
+                                        class="example-radio-group" [(ngModel)]="favoriteInvoice">
+                                        <mat-radio-button class="example-radio-button"
+                                            [disabled]="!claims || !claims.doceipt_user_isOwner"
+                                            (change)="invoiceRadioChange(invoice.id)" [value]="invoice.id">
+                                            {{invoice.name}}
+                                        </mat-radio-button>
+                                    </mat-radio-group>
+                                </ng-container>
+                            </div>
+                        </mat-tab>
+                        <mat-tab>
+                            <ng-template mat-tab-label>
+                                <mat-icon class="example-tab-icon">receipt</mat-icon>
+                                Receipt
+                            </ng-template>
+                            <div class="mt-3">
+                                <ng-container *ngFor="let receipt of templatesPiped.Receipt">
+                                    <mat-radio-group aria-labelledby="example-radio-group-label"
+                                        class="example-radio-group" [(ngModel)]="favoriteReceipt">
+                                        <mat-radio-button class="example-radio-button"
+                                            [disabled]="!claims || !claims.doceipt_user_isOwner"
+                                            (change)="receiptRadioChange(receipt.id)" [value]="receipt.id">
+                                            {{receipt.name}}
+                                        </mat-radio-button>
+                                    </mat-radio-group>
+                                </ng-container>
+                            </div>
+                        </mat-tab>
+
+                    </mat-tab-group>
+
+                </mat-card-content>
+
+            </mat-card>
+
+
+        </mat-card-content>
+
+    </mat-card>
+</div>
+
+<div class="main-content mt-4" *ngIf="claims && claims.doceipt_claim_machine_access">
+    <div class="mt-4">
+
+        <label mat-label>Machines</label>
+
+        <button class="float-right mr-5" mat-icon-button color="primary" aria-label="Add Machine"
+            *ngIf="claims && claims.doceipt_claim_machine_create" (click)="goAddMachine()">
+            <mat-icon>add</mat-icon>Machine
+        </button>
+
+        <table mat-table matSort [dataSource]="dataSource" class="mat-elevation-z8 w-100">
+
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="machineNo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Machine # </th>
+                <td mat-cell *matCellDef="let element">
+                    {{element.machineNo}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+                <td mat-cell *matCellDef="let element">
+                    <mat-chip-list>
+                        <mat-chip *ngIf="element.isActive" color="primary" selected>Active</mat-chip>
+                        <mat-chip *ngIf="!element.isActive" color="accent" selected>Inactive</mat-chip>
+                    </mat-chip-list>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions" stickyEnd>
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td align="right" mat-cell *matCellDef="let element; let i = index">
+                    <mat-icon class="cursor-pointer ml-1" *ngIf="claims && claims.doceipt_claim_machine_create"
+                        (click)="goEditMachine(element)" title="Update">edit</mat-icon>
+                    <mat-icon class="cursor-pointer ml-1" *ngIf="claims && claims.doceipt_claim_machine_delete"
+                        (click)="openDeleteDialog(element)" title="Delete">
+                        delete_outline
+                    </mat-icon>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsMachine"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsMachine;"></tr>
+        </table>
+
+        <mat-paginator *ngIf="machines" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+        </mat-paginator>
+    </div>
+</div>

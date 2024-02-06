@@ -1,0 +1,110 @@
+h6 {
+    font-size: 13px;
+}
+
+.f-lt {
+    float: left;
+}
+
+mat-expansion-panel-header {
+    min-height: 100px;
+}
+
+.pay-icon {
+    font-size: 15px;
+}
+.btn-new {
+    width: 30px;
+    height: 30px;
+}
+
+.f-rt {
+    float: right;
+}
+
+.voided {
+    background-color: rgb(187, 187, 187);
+    color: white;
+    padding: 5px;
+}
+
+.paid {
+    background-color: darkseagreen;
+    color: white;
+    padding: 5px;
+}
+
+.due {
+    background-color: darkred;
+    color: white;
+    padding: 5px;
+}
+
+.bisque {
+    background-color: bisque;
+    color: black;
+    padding: 5px;
+}
+
+[data-toggle="collapse"][aria-expanded="true"] > .rotate-icon {
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
+.size {
+    font-size: 25px;
+}
+
+.ml {
+    margin-left: 17px;
+}
+
+.mls-4 {
+    margin-left: 1.5rem !important;
+}
+
+.div-invoice-list {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid rgb(214, 214, 214);
+    cursor: pointer;
+}
+
+.div-invoice-list:hover {
+    background-color: rgb(214, 214, 214);
+}
+
+.card-body {
+    width: 100%;
+}
+
+@media only screen and (max-width: 480px) {
+    .mls-4 {
+        margin-left: 0rem !important;
+    }
+
+    .f-rt {
+        float: left;
+    }
+
+    .fl-t {
+        float: left;
+    }
+
+    .mt-4,
+    .my-4 {
+        margin-top: 0rem !important;
+    }
+    .m-ls {
+        margin-left: 0rem !important;
+    }
+}
+
+@media only screen and (max-width: 763px) {
+    .m-ls {
+        margin-left: 1.5rem;
+    }
+}

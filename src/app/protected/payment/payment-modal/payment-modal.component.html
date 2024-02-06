@@ -1,0 +1,61 @@
+<h1 mat-dialog-title>Payment</h1>
+<div mat-dialog-content>
+    <div class="continer">
+        <div *ngIf="model">
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <mat-label class="invoice-headers">Bill To</mat-label><br>
+                    <mat-label>{{model.message.invoice.customer.name}}</mat-label><br>
+                    <mat-label class="invoice-headers">Reference ID</mat-label><br>
+                    <mat-label>{{model.message.invoice.customer.referenceId}}</mat-label><br>
+                    <mat-label class="invoice-headers">Customer Group</mat-label><br>
+                    <mat-label>{{model.message.invoice.customer.customerGroup.name}}</mat-label><br>
+                </div>
+
+                <div class="col-sm-6">
+                    <mat-label class="invoice-headers">Payment #</mat-label><br>
+                    <mat-label>{{model.message.paymentNumber}}</mat-label><br>
+                    <mat-label class="invoice-headers">Invoice #</mat-label><br>
+                    <mat-label>{{model.message.invoice.invoiceNumber}}</mat-label><br>
+                    <mat-label class="invoice-headers">Invoice Date</mat-label><br>
+                    <mat-label>{{model.message.invoice.invoiceDate | date:'yyyy-MM-dd'}}</mat-label><br>
+                    <mat-label class="invoice-headers">Payment Cycle</mat-label><br>
+                    <ng-container *ngFor="let paymentCycle of paymentCycles; let j = index">
+                        <mat-label>{{ paymentCycle.name }}</mat-label><br>
+                    </ng-container>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-5">
+                    <mat-label class="invoice-headers">Amount</mat-label><br>
+                    <mat-label>{{model.message.currency}} {{model.message.amount | number}}</mat-label><br>
+                    <mat-label class="invoice-headers">Payment Date</mat-label><br>
+                    <mat-label>{{model.message.paymentDate | date:'yyyy-MM-dd'}}</mat-label><br>
+                    <mat-label class="invoice-headers">Payment Method</mat-label><br>
+                    <mat-label>{{model.message.paymentMethod.name}}</mat-label><br>
+                    <mat-label class="invoice-headers">Amount Due</mat-label><br>
+                    <mat-label class="price-mat-label">
+                        {{model.message.invoice.currency}}&nbsp;{{model.message.invoice.dueAmount | number}}</mat-label>
+                    <br>
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="col-sm-6">
+                    <mat-label class="invoice-headers">Financial Period</mat-label><br>
+                    <mat-label>{{model.message.invoice.financialPeriod.name}}</mat-label><br>
+                    <mat-label class="invoice-headers">Created By</mat-label><br>
+                    <mat-label>{{model.message.createdBy.name}}</mat-label><br>
+                    <mat-label>{{model.message.createdBy.email}}</mat-label><br>
+                    <mat-label class="invoice-headers">Status</mat-label><br>
+                    <mat-label *ngIf="!model.voided">Active</mat-label>
+                    <mat-label *ngIf="model.voided">Voided</mat-label><br>
+                    <mat-label class="invoice-headers" *ngIf="model.voided">Voided By</mat-label><br>
+                    <mat-label *ngIf="model.voided">{{model.message.voidedBy.name}}</mat-label><br>
+                    <mat-label *ngIf="model.voided">{{model.message.voidedBy.email}}</mat-label><br>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

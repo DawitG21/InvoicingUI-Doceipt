@@ -1,0 +1,71 @@
+<div mat-dialog-content>
+
+  <div>
+    <mat-label class="font-preview mb-3">Contact Preview</mat-label>
+    <mat-icon class="float-right font-preview cursor-pointer" title="Close Preview" color="primary" (click)="close()">
+      clear</mat-icon>
+  </div>
+
+  <mat-divider></mat-divider>
+  <div class="modal-body">
+
+    <img class="col-sm-4 rounded mx-auto d-block" src="assets/dummy.png">
+    <mat-divider></mat-divider>
+    <div *ngIf="contact">
+
+      <div class="row mr-3">
+        <mat-label class="col-sm-6">
+          <mat-label class="float-right col-form-label text-center">Name</mat-label>
+        </mat-label>
+        <mat-label class="col-sm-6 col-form-label">{{contact.name}}</mat-label>
+      </div>
+
+      <div class="row mr-3">
+        <mat-label class="col-sm-6">
+          <mat-label class="float-right col-form-label text-center">Phone</mat-label>
+        </mat-label>
+        <mat-label class="col-sm-6 col-form-label" *ngIf="contact.phoneNumbers.length > 0">
+          {{contact.phoneNumbers[0].dialingCode}} {{contact.phoneNumbers[0].phone}}</mat-label>
+      </div>
+
+      <mat-divider></mat-divider>
+      <div class="row mr-3">
+        <mat-label class="col-sm-6">
+          <mat-label class="float-right col-form-label text-center">Address 1</mat-label>
+        </mat-label>
+        <mat-label class="col-sm-6 col-form-label">{{contact.addressLine1}}</mat-label>
+      </div>
+
+      <div class="row mr-3">
+        <mat-label class="col-sm-6">
+          <mat-label class="float-right col-form-label text-center">Address 2</mat-label>
+        </mat-label>
+        <mat-label class="col-sm-6 col-form-label">{{contact.addressLine2}}</mat-label>
+      </div>
+
+      <mat-divider></mat-divider>
+      <div class="row mr-3">
+        <mat-label class="col-sm-6">
+          <mat-label class="float-right col-form-label text-center">Country</mat-label>
+        </mat-label>
+        <mat-label class="col-sm-6 col-form-label">{{contact.country}}</mat-label>
+      </div>
+
+      <div class="row mr-3">
+        <mat-label class="col-sm-6">
+          <mat-label class="float-right col-form-label text-center">City</mat-label>
+        </mat-label>
+        <mat-label class="col-sm-6 col-form-label">{{contact.city}}</mat-label>
+      </div>
+
+      <div class="row mr-3">
+        <mat-label class="col-sm-6">
+          <mat-label class="float-right col-form-label text-center">State</mat-label>
+        </mat-label>
+        <mat-label class="col-sm-6 col-form-label">{{contact.state}}</mat-label>
+      </div>
+
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+</div>

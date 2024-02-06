@@ -1,0 +1,29 @@
+<form id="f" class="formstyle" *ngIf="model" [formGroup]="form">
+    <mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+    <h4 class="headertext">Company</h4>
+    <mat-form-field appearance="outline" class="col-sm-12">
+        <mat-label>Company Name</mat-label>
+        <input matInput formControlName="displayName" required placeholder="Enter your company name" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-sm-12">
+        <mat-label>Identity Name</mat-label>
+        <input matInput formControlName="identityName" required placeholder="Enter a unique name" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-sm-12">
+        <mat-label>Currency</mat-label>
+        <mat-select formControlName="currency" required>
+            <mat-option *ngFor="let currency of currencies" [value]="currency">
+                {{ currency }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <div class="row pl-4 pr-4">
+        <button mat-raised-button class="col-sm-12" color="primary" (click)="save()">
+            Next &nbsp; <mat-icon>arrow_forward_ios</mat-icon>
+        </button>
+    </div>
+
+</form>

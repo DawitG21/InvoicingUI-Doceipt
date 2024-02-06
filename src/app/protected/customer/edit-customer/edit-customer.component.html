@@ -1,0 +1,100 @@
+<div class="main-content">
+  <div class="content-toolbar">
+
+    <button mat-button color="primary" (click)="goBack()">
+      <mat-icon aria-hidden="false" aria-label="keyboard_arrow_left icon">keyboard_arrow_left</mat-icon>Edit Customer
+    </button>
+
+    <button mat-button color="primary" class="float-right ml-1" [disabled]="saveStatus" (click)="save()">
+      Save
+    </button>
+
+  </div>
+</div>
+
+<mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+
+<form id="f" class="mt-4" *ngIf="model" [formGroup]="form">
+
+  <mat-form-field appearance="outline" class="col-sm-6">
+    <mat-label>Name</mat-label>
+    <input matInput formControlName="name" required placeholder="e.g Jane Doe" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="col-sm-6">
+    <mat-label>Reference Id</mat-label>
+    <input matInput formControlName="referenceId" required placeholder="e.g CUS009" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="col-sm-6">
+    <mat-label>Search Customer Group</mat-label>
+    <input matInput placeholder="Click the search icon to find a customer group" value="{{name}}" name="customerGroup"
+      readonly aria-label="customerGroupName" required [disabled]="customerGroupDisabled">
+    <button mat-icon-button matSuffix (click)="openDialog()" [disabled]="customerGroupDisabled">
+      <mat-icon class="cursor-pointer">search</mat-icon>
+    </button>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="col-sm-6">
+    <mat-label>Branch</mat-label>
+    <mat-select formControlName="branchId" required>
+      <ng-container *ngFor="let b of branches">
+        <mat-option *ngIf="b.isActive" [value]="b.id">
+          {{b.name}}
+        </mat-option>
+      </ng-container>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-slide-toggle formControlName="isActive" checked="{{status}}" class="ml-3" color="primary"
+    (change)="setStatus($event.checked)">
+    {{message}}
+  </mat-slide-toggle>
+</form>
+
+<div class="mt-4" *ngIf="claims && claims.doceipt_claim_contact_access">
+  <label mat-label>Contacts</label>
+
+  <button class="float-right mright" mat-icon-button color="primary" aria-label="Add connector"
+    (click)="openAssignContactDialog()">
+    <mat-icon>add</mat-icon>Billing Address
+  </button>
+
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-100">
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.contact.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="primaryEmail">
+      <th mat-header-cell *matHeaderCellDef> Primary Email </th>
+      <td mat-cell *matCellDef="let element"> {{element.primaryEmail}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="relationship">
+      <th mat-header-cell *matHeaderCellDef> Relationship </th>
+      <td mat-cell *matCellDef="let element"> {{element.relationship}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="primaryPhone">
+      <th mat-header-cell *matHeaderCellDef> Primary Phone </th>
+      <td mat-cell *matCellDef="let element"> {{element.primaryPhone}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions" stickyEnd>
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let element">
+        <mat-icon class="cursor-pointer ml-1" (click)="edit(element)" title="edit">edit
+        </mat-icon>
+        <mat-icon class="cursor-pointer ml-1" (click)="openDeleteDialog(element)" title="Delete">
+          delete_outline
+        </mat-icon>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+</div>

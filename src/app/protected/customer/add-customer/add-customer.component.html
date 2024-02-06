@@ -1,0 +1,116 @@
+<div class="main-content">
+  <div class="content-toolbar">
+
+    <button mat-button color="primary" (click)="goBack()">
+      <mat-icon aria-hidden="false" aria-label="keyboard_arrow_left icon">keyboard_arrow_left</mat-icon>New Customer
+    </button>
+
+    <button mat-button color="primary" class="float-right ml-1" [disabled]="saveStatus" (click)="save()">
+      Save
+    </button>
+
+  </div>
+</div>
+
+<mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+<form id="f" class="mt-4" *ngIf="model" [formGroup]="form">
+
+  <mat-form-field appearance="outline" class="col-sm-6">
+    <mat-label>Full Name</mat-label>
+    <input matInput formControlName="name" required placeholder="e.g Jane Doe" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="col-sm-6">
+    <mat-label>Reference Id</mat-label>
+    <input matInput formControlName="referenceId" required placeholder="e.g CUS009" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="col-sm-6">
+    <mat-label>Search Customer Group</mat-label>
+    <input matInput placeholder="Click the search icon to find a customer group" value="{{customerGroup.name}}"
+      name="customerGroup" readonly aria-label="customerGroupName" required [disabled]="customerGroupDisabled">
+    <button mat-icon-button matSuffix (click)="openSearchCustomerGroupDialog()" [disabled]="customerGroupDisabled">
+      <mat-icon class="cursor-pointer">search</mat-icon>
+    </button>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="col-sm-6">
+    <mat-label>Branch</mat-label>
+    <mat-select formControlName="branchId">
+      <ng-container *ngFor="let b of branches">
+        <mat-option *ngIf="b.isActive" [value]="b.id">
+          {{b.name}}
+        </mat-option>
+      </ng-container>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-slide-toggle formControlName="isActive" checked="{{status}}" class="ml-3" color="primary"
+    (change)="setStatus($event.checked)">
+    {{message}}
+  </mat-slide-toggle>
+
+  <div class="row ml-3 mt-3">
+    <button mat-raised-button color="primary" (click)="openDialog()" [disabled]="contactAssignDisabled">
+      Assign Contact
+    </button>
+  </div>
+
+  <ng-container *ngFor="let contact of billingAddress; let i = index">
+    <div class="card card-btn border border-0 mt-3">
+      <div class="row no-gutters">
+        <div class="col">
+          <div class="card-body">
+            <div class="div2 float-left w-100 mt-2">
+              <ng-container *ngIf="contacts.length > 0">
+                <div class="card-content col-sm-3 mb-3">
+                  <h5 class="card-title" *ngIf="contacts.length > 0">{{ contacts[i].name }}</h5>
+                  <h6 class="card-text text-muted" *ngIf="contacts[i].phoneNumbers.length > 0">
+                    +{{ contacts[i].phoneNumbers[0].dialingCode }}-{{ contacts[i].phoneNumbers[0].phone }}</h6>
+                </div>
+                <mat-form-field class="col-sm-3">
+                  <mat-label>Choose primary email</mat-label>
+                  <mat-select [(value)]="billingAddress[i].primaryEmail">
+                    <ng-container *ngFor="let email of contacts[i].emails">
+                      <mat-option value="{{email.email}}">{{email.email}}</mat-option>
+                    </ng-container>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="col-sm-3">
+                  <mat-label>Choose primary phone</mat-label>
+                  <mat-select [(value)]="billingAddress[i].primaryPhone">
+                    <ng-container *ngFor="let phone of contacts[i].phoneNumbers">
+                      <mat-option value="{{phone.dialingCode}} {{phone.phone}}">{{phone.dialingCode}} {{phone.phone}}
+                      </mat-option>
+                    </ng-container>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="col-sm-2">
+                  <mat-label>Choose Relationship</mat-label>
+                  <mat-select [(value)]="billingAddress[i].relationship">
+                    <mat-option value="Parent">Parent</mat-option>
+                    <mat-option value="Self">Self</mat-option>
+                    <mat-option value="Spouse">Spouse</mat-option>
+                    <mat-option value="Relative">Relative</mat-option>
+                    <mat-option value="Others">Others</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </ng-container>
+
+              <mat-icon class="cursor-pointer mt-3 mb-3 float-right" stickyEnd (click)="removeContact(i)"
+                title="Delete">
+                delete_outline
+              </mat-icon>
+
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+</form>

@@ -1,0 +1,97 @@
+.toggle-add-invoice {
+  margin-left: -15px;
+  margin-right: -15px;
+  color: #ffffff;
+}
+
+.modal-service-fee {
+  min-height: 200px;
+  margin-top: 250px;
+  margin-left: 30%;
+}
+
+.header-div {
+  background-color: #343a40;
+}
+
+.list-service-fee {
+  margin-left: 5% !important;
+  margin-right: 5% !important;
+  width: 50%;
+  width: 90%;
+}
+
+.text-align {
+  text-align: center;
+}
+
+.readOnly-date:hover {
+  cursor: not-allowed;
+}
+
+.ribbon-row {
+  width: 100%;
+}
+
+.input-quantity-discount {
+  border: 1px;
+  border-bottom: 2px solid darkgray;
+  background: none;
+}
+
+mat-label {
+  color: #ffffff;
+}
+
+.btn-background {
+  background-color: blueviolet;
+}
+
+.text {
+  color: #000000;
+}
+
+.title-Invoice {
+  font-size: 18px;
+  color: blueviolet;
+}
+
+.white {
+  color: white;
+}
+
+.custom-row {
+  margin-left: 90px !important;
+  width: 91% !important;
+}
+
+#formAddInvoice::ng-deep.mat-focused .mat-form-field-label {
+  /*change color of label*/
+  color: white !important;
+}
+
+#formaddinvoice::ng-deep.mat-select-value {
+  color: white;
+}
+
+#formaddinvoice::ng-deep.mat-select-arrow {
+  color: white;
+}
+
+#formaddinvoice::ng-deep.mat-form-field-underline {
+  /*change color of underline*/
+  background-color: white !important;
+}
+
+#formaddinvoice::ng-deep.mat-form-field-ripple {
+  /*change color of underline when focused*/
+  background-color: white !important;
+}
+
+#formaddinvoice::placeholder {
+  color: white;
+}
+
+#formaddinvoice::ng-deep.mat-form-field-appearance-fill .mat-form-field-flex {
+  background-color: white;
+}

@@ -1,0 +1,49 @@
+<div class="main-content">
+    <div class="content-toolbar">
+
+        <button mat-button color="primary" (click)="goBack()">
+            <mat-icon aria-hidden="false" aria-label="keyboard_arrow_left icon">keyboard_arrow_left</mat-icon>New
+            Machine
+        </button>
+
+        <button mat-button color="primary" class="float-right ml-1" (click)="save()">
+            Save
+        </button>
+
+    </div>
+</div>
+
+<form class="mt-4" *ngIf="model" [formGroup]="form">
+    <mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+
+    <mat-form-field appearance="outline" class="col-sm-6">
+        <mat-label>Machine Name </mat-label>
+        <input matInput formControlName="name" required placeholder="e.g POS Receipt #1" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-sm-6">
+        <mat-label>Machine # </mat-label>
+        <input matInput formControlName="machineNo" required placeholder="e.g DO-BO-001" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-sm-4">
+        <mat-label>Brand</mat-label>
+        <input matInput formControlName="brand" placeholder="e.g DO-BO-001" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-sm-4">
+        <mat-label>Model</mat-label>
+        <input matInput formControlName="model" placeholder="e.g DO-BO-001" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-sm-4">
+        <mat-label>Serial #</mat-label>
+        <input matInput formControlName="serial" placeholder="e.g DO-BO-001" />
+    </mat-form-field>
+
+    <mat-slide-toggle formControlName="isActive" checked="{{status}}" class="ml-3" color="primary"
+        (change)="setStatus($event.checked)">
+        {{message}}
+    </mat-slide-toggle>
+
+</form>

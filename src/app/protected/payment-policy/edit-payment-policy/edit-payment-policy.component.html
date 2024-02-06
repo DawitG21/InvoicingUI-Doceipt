@@ -1,0 +1,156 @@
+<div class="main-content">
+    <div class="content-toolbar">
+
+        <button mat-button color="primary" (click)="return()">
+            <mat-icon aria-hidden="false" aria-label="keyboard_arrow_left icon">keyboard_arrow_left</mat-icon>Edit
+            Payment Policy
+        </button>
+
+        <button mat-button color="primary" class="float-right ml-1" [disabled]="saveStatus" (click)="save()">
+            Save
+        </button>
+    </div>
+</div>
+
+<mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+<form id="f" class="mt-4" *ngIf="model" [formGroup]="form">
+
+    <mat-form-field appearance="outline" class="col-sm-6">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" required placeholder="e.g 75% policy" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-sm-6">
+        <mat-label>Minimum % (0 - 100)</mat-label>
+        <input matInput type="number" min="0" max="100" formControlName="minPercent" required placeholder="e.g 75" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-sm-12">
+        <mat-label>Description</mat-label>
+        <textarea matInput placeholder="A brief description of the Payment Policy."
+            formControlName="description"></textarea>
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-4">
+        <mat-select placeholder="Financial Periods" [formControl]="fpForm" multiple>
+            <mat-select-trigger *ngIf="fpForm.value">
+                {{getFinancialPeriodText}}
+                <span *ngIf="getFinancialPeriods.value?.length > 1" class="example-additional-selection">
+                    ({{getFinancialPeriodConcat}})
+                </span>
+            </mat-select-trigger>
+            <ng-container *ngFor="let g of financialPeriodsList">
+                <mat-option [value]="g.id" *ngIf="g.opened">
+                    {{g.name}}
+                </mat-option>
+            </ng-container>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-4">
+        <mat-select placeholder="Payment Cycles" [formControl]="pcForm" multiple>
+            <mat-select-trigger *ngIf="pcForm.value">
+                {{getPaymentCycleText}}
+                <span *ngIf="getPaymentCycles.value?.length > 1" class="example-additional-selection">
+                    ({{getPaymentCycleConcat}})
+                </span>
+            </mat-select-trigger>
+            <ng-container *ngFor="let pc of paymentCyclesList">
+                <mat-option [value]="pc.id" *ngIf="pc.isActive">
+                    {{pc.name}}
+                </mat-option>
+            </ng-container>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-4">
+        <mat-select placeholder="Customer Groups" [formControl]="pgForm" multiple>
+            <mat-select-trigger *ngIf="pgForm.value">
+                {{getCustomerGroupText}}
+                <span *ngIf="getCustomerGroups.value?.length > 1" class="example-additional-selection">
+                    ({{getCustomerGroupConcat}})
+                </span>
+            </mat-select-trigger>
+            <ng-container *ngFor="let pg of customerGroupsList">
+                <mat-option [value]="pg.id" *ngIf="pg.isActive">
+                    {{pg.name}}
+                </mat-option>
+            </ng-container>
+        </mat-select>
+    </mat-form-field>
+
+    <div class="row ml-2 mt-2">
+
+        <div class="col-sm-5">
+            <button mat-raised-button color="primary" (click)="openDialog()" [disabled]="btnAssignCustomerDisabled">
+                Assign Customer
+            </button>
+        </div>
+
+        <div class="col-sm-2">
+            <mat-slide-toggle formControlName="isActive" checked="{{status}}" class="ml-3" color="primary"
+                (change)="setStatus($event.checked)">
+                {{message}}
+            </mat-slide-toggle>
+        </div>
+
+        <div class="col-sm-4">
+            <mat-slide-toggle formControlName="autoDiscount" checked="{{autoDiscount}}" class="ml-3" color="primary"
+                (change)="setAutoDiscount($event.checked)">
+                {{autoDiscLabel}}
+            </mat-slide-toggle>
+        </div>
+    </div>
+
+</form>
+
+<div class="w-100 mt-4">
+
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-100">
+
+        <ng-container matColumnDef="pos">
+            <th mat-header-cell *matHeaderCellDef> Pos. </th>
+            <td mat-cell *matCellDef="let element; let i = index;">{{this.paginator.pageIndex == 0 ? i + 1 : 1 + i + this.paginator.pageIndex * this.paginator.pageSize}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="referenceId">
+            <th mat-header-cell *matHeaderCellDef> Ref# </th>
+            <td mat-cell *matCellDef="let element"> {{element.referenceId}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="customerGroup">
+            <th mat-header-cell *matHeaderCellDef> Customer Group </th>
+            <td mat-cell *matCellDef="let element"> {{element.customerGroup.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef> Status </th>
+            <td mat-cell *matCellDef="let element">
+                <mat-chip-list>
+                    <mat-chip *ngIf="element.isActive" color="primary" selected>Active</mat-chip>
+                    <mat-chip *ngIf="!element.isActive" color="accent" selected>Inactive</mat-chip>
+                </mat-chip-list>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions" stickyEnd>
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let element">
+                <mat-icon class="cursor-pointer ml-1" (click)="remove(element)" title="Delete">
+                    delete_outline
+                </mat-icon>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+</div>

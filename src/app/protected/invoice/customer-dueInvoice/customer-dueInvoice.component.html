@@ -1,0 +1,31 @@
+<div mat-dialog-content>
+  <mat-label class="modal-header">
+    <mat-label class="mt-2" *ngIf="dueInvoices.length"><b>{{customer.name}}</b></mat-label>
+  </mat-label>
+
+  <div class="modal-body">
+    <img class="col-sm-6 rounded mx-auto d-block" src="assets/dummy.png">
+    <mat-label>Due Invoices
+      <span class="badge badge-pill badge-danger">{{dueInvoices.length}}</span>
+    </mat-label>
+    <ng-container *ngFor="let inv of dueInvoices; let i = index">
+      <div class="card card-btn border border-0" (click)="openDialog(inv)">
+        <div class="card card-btn border border-0">
+          <div class="card-body">
+            <mat-label class="card-content">
+              <ngx-avatar name="{{ inv.invoiceNumber }}" value="28%" fgColor="white" [size]="50" [textSizeRatio]="2.5"
+                [round]="true">
+              </ngx-avatar>
+            </mat-label>
+
+            <mat-label class="card-content ml-2">
+              <b>{{inv.invoiceNumber}}</b><br>
+              Due Amount: {{inv.currency}} {{inv.dueAmount }}<br>
+              Invoice Date: {{inv.invoiceDate | date:"yyyy-MM-dd"}}
+            </mat-label>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

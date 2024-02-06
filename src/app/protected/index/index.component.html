@@ -1,0 +1,272 @@
+<div class="container">
+  <div class="sidebar-wr" [ngClass]='toggleStyle' *ngIf="!busy">
+    <div class="sidebar scrollbar" *ngIf="showNavs">
+      <ul id="accordion" class="sidebar-nav">
+
+        <li>
+          <a id="navbar-toggle" (click)='toggleNav($event)'>
+            Close <mat-icon class="float-right" aria-hidden="false" aria-label="menu icon">menu</mat-icon>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/protected/dashboard" routerLinkActive="active">
+            Dashboard <mat-icon class="float-right" aria-hidden="false" aria-label="home icon">home</mat-icon>
+          </a>
+        </li>
+
+        <li *ngIf="claims && claims.doceipt_claim_financialperiod_access ||
+        claims && claims.doceipt_claim_customergroup_access ||
+        claims && claims.doceipt_claim_paymentcycle_access ||
+        claims && claims.doceipt_claim_branch_access">
+          <div class="card sidebar">
+            <div class="card-header cursor-pointer" id="headingOne">
+              <a data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                Basic Setup
+                <mat-icon class="menu-icon rotate-icon size" aria-hidden="false" aria-label="keyboard_arrow_right icon">
+                  keyboard_arrow_right</mat-icon>
+              </a>
+            </div>
+
+            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+              <div class="card-body">
+                <ul class="sidebar-nav">
+                  <li *ngIf="claims && claims.doceipt_claim_financialperiod_access">
+                    <a routerLink="/protected/financial-period" routerLinkActive="active">
+                      Financial Period <mat-icon class="float-right" aria-hidden="false" aria-label="date_range icon">
+                        date_range</mat-icon>
+                    </a>
+                  </li>
+                  <li *ngIf="claims && claims.doceipt_claim_customergroup_access">
+                    <a routerLink="/protected/customer-group" routerLinkActive="active">
+                      Customer Group <mat-icon class="float-right" aria-hidden="false" aria-label="groups icon">groups
+                      </mat-icon>
+                    </a>
+                  </li>
+                  <li *ngIf="claims && claims.doceipt_claim_paymentcycle_access">
+                    <a routerLink="/protected/payment-cycle" routerLinkActive="active">
+                      Payment Cycle <mat-icon class="float-right" aria-hidden="false" aria-label="all_inclusive icon">
+                        all_inclusive</mat-icon>
+                    </a>
+                  </li>
+                  <li *ngIf="claims && claims.doceipt_claim_branch_access">
+                    <a routerLink="/protected/branch" routerLinkActive="active">
+                      Branch <mat-icon class="float-right" aria-hidden="false" aria-label="domain icon">domain
+                      </mat-icon>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </li>
+
+
+        <li *ngIf="claims && claims.doceipt_claim_paymentmethod_access ||
+        claims && claims.doceipt_claim_paymentpolicy_access && claims.doceipt_claim_penalty_access">
+          <div class="card sidebar">
+            <div class="card-header cursor-pointer" id="headingTwo">
+              <a data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                Payment Options
+                <mat-icon class="menu-icon rotate-icon size" aria-hidden="false" aria-label="keyboard_arrow_right icon">
+                  keyboard_arrow_right</mat-icon>
+              </a>
+            </div>
+
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+              <div class="card-body">
+                <ul class="sidebar-nav">
+                  <li *ngIf="claims && claims.doceipt_claim_paymentmethod_access">
+                    <a routerLink="/protected/payment-method" routerLinkActive="active">
+                      Payment Method <mat-icon class="float-right" aria-hidden="false" aria-label="local_atm icon">
+                        local_atm</mat-icon>
+                    </a>
+                  </li>
+                  <li *ngIf="claims && claims.doceipt_claim_paymentpolicy_access">
+                    <a routerLink="/protected/payment-policy" routerLinkActive="active">
+                      Payment Policy <mat-icon class="float-right" aria-hidden="false" aria-label="security icon">
+                        security</mat-icon>
+                    </a>
+                  </li>
+                  <li *ngIf="claims && claims.doceipt_claim_penalty_access">
+                    <a routerLink="/protected/penalty" routerLinkActive="active">
+                      Penalty <mat-icon class="float-right" aria-hidden="false" aria-label="local_atm icon">
+                        report_problem</mat-icon>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <li *ngIf="claims && claims.doceipt_claim_service_access ||
+        claims && claims.doceipt_claim_servicefee_access ||
+        claims && claims.doceipt_claim_tax_access">
+          <div class="card sidebar">
+            <div class="card-header cursor-pointer" id="headingThree">
+              <a data-toggle="collapse" data-target="#collapseThree" aria-expanded="false"
+                aria-controls="collapseThree">
+                Service & Fees
+                <mat-icon class="menu-icon rotate-icon size" aria-hidden="false" aria-label="keyboard_arrow_right icon">
+                  keyboard_arrow_right</mat-icon>
+              </a>
+            </div>
+
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+              <div class="card-body">
+                <ul class="sidebar-nav">
+                  <li *ngIf="claims && claims.doceipt_claim_tax_access">
+                    <a routerLink="/protected/tax" routerLinkActive="active">
+                      Tax <mat-icon class="float-right" aria-hidden="false" aria-label="toll icon">toll</mat-icon>
+                    </a>
+                  </li>
+                  <li *ngIf="claims && claims.doceipt_claim_service_access">
+                    <a routerLink="/protected/service" routerLinkActive="active">
+                      Service <mat-icon class="float-right" aria-hidden="false" aria-label="room_service icon">
+                        room_service</mat-icon>
+                    </a>
+                  </li>
+                  <li *ngIf="claims && claims.doceipt_claim_servicefee_access">
+                    <a routerLink="/protected/service-fee" routerLinkActive="active">
+                      Service Fee <mat-icon class="float-right" aria-hidden="false" aria-label="attach_money icon">
+                        attach_money</mat-icon>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <li *ngIf="claims && claims.doceipt_claim_contact_access || claims && claims.doceipt_claim_customer_access">
+          <div class="card sidebar">
+            <div class="card-header cursor-pointer" id="headingFour">
+              <a data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                Customer & Contact
+                <mat-icon class="menu-icon rotate-icon size" aria-hidden="false" aria-label="keyboard_arrow_right icon">
+                  keyboard_arrow_right</mat-icon>
+              </a>
+            </div>
+
+            <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+              <div class="card-body">
+                <ul class="sidebar-nav">
+                  <li *ngIf="claims && claims.doceipt_claim_customer_access">
+                    <a routerLink="/protected/customer" routerLinkActive="active">
+                      Customer <mat-icon class="float-right" aria-hidden="false" aria-label="person icon">person
+                      </mat-icon>
+                    </a>
+                  </li>
+                  <li *ngIf="claims && claims.doceipt_claim_contact_access">
+                    <a routerLink="/protected/contact" routerLinkActive="active">
+                      Contact <mat-icon class="float-right" aria-hidden="false" aria-label="account_box icon">
+                        account_box</mat-icon>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <li *ngIf="claims && claims.doceipt_claim_batchinvoice_access || 
+          claims && claims.doceipt_claim_invoice_access ||
+          claims && claims.doceipt_claim_payment_access">
+          <div class="card sidebar">
+            <div class="card-header cursor-pointer" id="headingFive">
+              <a data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                Invoice & Payment
+                <mat-icon class="menu-icon rotate-icon size" aria-hidden="false" aria-label="keyboard_arrow_right icon">
+                  keyboard_arrow_right</mat-icon>
+              </a>
+            </div>
+
+            <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
+              <div class="card-body">
+                <ul class="sidebar-nav">
+                  <li *ngIf="claims && claims.doceipt_claim_batchinvoice_access">
+                    <a routerLink="/protected/batch-invoice" routerLinkActive="active">
+                      Batch Invoice <mat-icon class="float-right" aria-hidden="false" aria-label="receipt_long icon">
+                        receipt_long</mat-icon>
+                    </a>
+                  </li>
+                  <li *ngIf="claims && claims.doceipt_claim_invoice_access">
+                    <a routerLink="/protected/invoice" routerLinkActive="active">
+                      Invoice <mat-icon class="float-right" aria-hidden="false" aria-label="receipt icon">receipt
+                      </mat-icon>
+                    </a>
+                  </li>
+                  <li *ngIf="claims && claims.doceipt_claim_payment_access">
+                    <a routerLink="/protected/payment" routerLinkActive="active">
+                      Payment <mat-icon class="float-right" aria-hidden="false" aria-label="payments icon">payments
+                      </mat-icon>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <li *ngIf="claims && claims.doceipt_report_viewer">
+          <a routerLink="/protected/report" routerLinkActive="active">
+            Report <mat-icon class="menu-icon float-right rotate-icon size" aria-hidden="false"
+              aria-label="timeline icon">timeline</mat-icon>
+          </a>
+        </li>
+        <li *ngIf="claims && claims.doceipt_claim_connector_access ||
+        claims && claims.doceipt_claim_source_access">
+          <a routerLink="/protected/settings" routerLinkActive="active">
+            Settings <mat-icon class="menu-icon float-right rotate-icon size" aria-hidden="false"
+              aria-label="settings icon">settings</mat-icon>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="content-right" [ngClass]='toggleStyle'>
+    <div class="col-md-12">
+
+      <div class="notch" id="notch" *ngIf="showNavs">
+        <mat-icon class="cursor-pointer" aria-hidden="false" aria-label="power_settings_new icon" (click)="signout()">
+          power_settings_new</mat-icon>
+
+        <span class="badge badge-pill badge-success cursor-pointer ml-4" title="Invitations"
+          *ngIf="userInvites && userInvites.length > 0" data-toggle="modal"
+          data-target="#modalUserInvitesPreview">{{userInvites.length}}</span>
+
+        <div class="btn-group float-right" *ngIf="companySelected">
+          <button type="button" class="btn notch-dropdown btn-sm" (click)="goCompany()">            
+            {{ (companySelected.displayName.length > 30) ? (companySelected.displayName | slice:0:28) + '...' : companySelected.displayName }}
+          </button>
+          <button type="button" class="btn notch-dropdown btn-sm dropdown-toggle dropdown-toggle-split"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="sr-only">Toggle Dropdown</span>
+          </button>
+          <div class="dropdown-menu dropdown-menu-right div-scroll">
+            <!-- Dropdown menu links -->
+            <ng-container *ngFor="let company of companies; let i = index">
+              <a class="dropdown-item" (click)="companyChanged(company)">
+                {{(company.displayName.length > 30) ? (company.displayName | slice:0:35) + '...' : company.displayName}}
+              </a>
+            </ng-container>
+          </div>
+        </div>
+
+      </div>
+      <router-outlet></router-outlet>
+    </div>
+
+    <ng-container *ngIf="importStatus">
+      <div class="import-progress" *ngIf="!importStatus.isSuccess && !importStatus.isCompleted">
+        <span class="span-imp-prog">
+          Importing Customers... <mat-spinner matSuffix [diameter]="20" class="spinner"></mat-spinner>
+          <mat-progress-bar mode="determinate" class="progress" value="{{progress}}"></mat-progress-bar>
+        </span>
+      </div>
+    </ng-container>
+
+    <ngx-spinner bdColor="rgba(220,220,220,0.6)" type="ball-atom"></ngx-spinner>
+  </div>
+</div>

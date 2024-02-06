@@ -1,0 +1,38 @@
+<div class="main-content">
+    <div class="content-toolbar">
+
+        <button mat-button color="primary" (click)="return()">
+            <mat-icon aria-hidden="false" aria-label="keyboard_arrow_left icon">keyboard_arrow_left</mat-icon>New
+            Company
+        </button>
+
+        <button mat-button color="primary" class="float-right ml-1" (click)="save()">
+            Save
+        </button>
+
+    </div>
+</div>
+
+<form class="mt-4" *ngIf="model" [formGroup]="form">
+    <mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+
+    <mat-form-field appearance="outline" class="col-sm-12">
+        <mat-label>Company Name</mat-label>
+        <input type="text" matInput formControlName="displayName" required placeholder="e.g Doceipt" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-sm-8">
+        <mat-label>Identity Name</mat-label>
+        <input type="text" matInput formControlName="identityName" required placeholder="e.g Doceipt" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-sm-4">
+        <mat-label>Currency</mat-label>
+        <mat-select formControlName="currency">
+            <mat-option *ngFor="let currency of currencies" [value]="currency">
+                {{currency}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+</form>

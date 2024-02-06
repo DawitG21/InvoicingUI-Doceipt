@@ -1,0 +1,128 @@
+<form id="f" [formGroup]="form">
+  <div class="border border-top-0 border-left-0 border-right-0">
+    <button mat-button color="primary" class="mt-0 float-right" (click)="searchInvoice()" cdkFocusInitial>
+      Search
+    </button>
+    <mat-slide-toggle checked="{{showActive}}" class="mt-1 mr-3 float-right" color="primary"
+      (change)="changeToggleState($event.checked)">
+      {{message}}
+    </mat-slide-toggle>
+    <h3 mat-dialog-title>Search Invoice</h3>
+  </div>
+  <mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+
+  <div mat-dialog-content id="DebugContainer">
+    <div class="container">
+
+      <div class="row mt-3">
+        <mat-form-field appearance="outline" class="col-sm-6">
+          <mat-label>Invoice Number</mat-label>
+          <input matInput type="text" placeholder="eg. I-1000000ABC" formControlName="invoiceNumber">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-sm-6">
+          <mat-label>Customer</mat-label>
+          <input matInput type="text" placeholder="Customer" formControlName="customer">
+        </mat-form-field>
+      </div>
+
+      <div class="row">
+        <mat-form-field appearance="outline" class="col-sm-6">
+          <mat-label>Receipt Number</mat-label>
+          <input matInput type="text" placeholder="eg. R-1000000ABC" formControlName="receipt">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-sm-6">
+          <mat-label>Payment Number</mat-label>
+          <input matInput type="text" placeholder="eg. P-1000000ABC" formControlName="payment">
+        </mat-form-field>
+      </div>
+
+      <div class="row">
+        <mat-form-field appearance="outline" class="col-sm-6">
+          <mat-label>Start Date</mat-label>
+          <input matInput [matDatepicker]="startdate" formControlName="fromDate">
+          <mat-datepicker-toggle matSuffix [for]="startdate"></mat-datepicker-toggle>
+          <mat-datepicker #startdate></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-sm-6">
+          <mat-label>End Date</mat-label>
+          <input matInput [matDatepicker]="enddate" formControlName="toDate">
+          <mat-datepicker-toggle matSuffix [for]="enddate"></mat-datepicker-toggle>
+          <mat-datepicker #enddate></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div class="row">
+        <mat-form-field appearance="outline" class="col-sm-6">
+          <mat-label>Search Financial Period</mat-label>
+          <input type="text" placeholder="Financial Period" matInput [formControl]="financialPeriodName"
+            [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let fp of financialPeriods" [value]="fp.name">
+              {{fp.name}}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-error *ngIf="financialPeriodName!.invalid">Financial period donesn't exist</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-sm-6">
+          <mat-label>Search Payment Cycle</mat-label>
+          <input type="text" placeholder="Payment cycle" matInput [formControl]="paymentCycleName"
+            [matAutocomplete]="pcycle">
+          <mat-autocomplete #pcycle="matAutocomplete">
+            <mat-option *ngFor="let pc of paymentCycles" [value]="pc.name">
+              {{pc.name}}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-error *ngIf="paymentCycleName!.invalid">Payment cycle donesn't exist</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="row">
+        <mat-form-field appearance="outline" class="col-sm-6">
+          <mat-label> Customer Group</mat-label>
+          <mat-select name="customergroup" formControlName="customerGroupId">
+            <mat-option value="" disabled selected>Choose Customer Group</mat-option>
+            <ng-container *ngFor="let PG of customerGroups; let i = index">
+              <ng-container *ngIf="showActive">
+                <mat-option [value]="PG.id" *ngIf="PG.isActive">
+                  {{PG.name}}
+                </mat-option>
+              </ng-container>
+              <ng-container *ngIf="!showActive">
+                <mat-option [value]="PG.id">
+                  {{PG.name}}
+                </mat-option>
+              </ng-container>
+            </ng-container>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-sm-6">
+          <mat-label> Branch</mat-label>
+          <mat-select name="branch" formControlName="branchId">
+            <mat-option value="" disabled selected>Choose Branch</mat-option>
+            <ng-container *ngFor="let branch of branches; let i = index">
+              <ng-container *ngIf="showActive">
+                <mat-option [value]="branch.id" *ngIf="branch.isActive">
+                  {{branch.name}}
+                </mat-option>
+              </ng-container>
+              <ng-container *ngIf="!showActive">
+                <mat-option [value]="branch.id">
+                  {{branch.name}}
+                </mat-option>
+              </ng-container>
+            </ng-container>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <ng-container *ngIf="this.invoices.length > 0">
+        <app-invoice-carousel [showSelectBtn]="true" [invoiceList]="invoices"></app-invoice-carousel>
+      </ng-container>
+
+    </div>
+    <mat-paginator [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="pageEvent($event)"
+      showFirstLastButtons>
+    </mat-paginator>
+  </div>
+</form>

@@ -1,0 +1,45 @@
+<div class="main-content">
+  <div class="content-toolbar">
+    <button mat-button color="primary" (click)="goBack()">
+      <mat-icon aria-hidden="false" aria-label="keyboard_arrow_left icon">keyboard_arrow_left</mat-icon>Edit Service
+    </button>
+    <button mat-button color="primary" class="float-right ml-1" [disabled]="saveStatus" (click)="save()">
+      Save
+    </button>
+  </div>
+</div>
+
+<mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+<form class="mt-4" id="f" [formGroup]="form">
+
+  <mat-form-field appearance="outline" class="col-sm-6">
+    <mat-label>Service Name</mat-label>
+    <input matInput placeholder="e.g Registration" formControlName="name" name="name" required>
+    <mat-error *ngIf="getServiceName!.invalid">{{getErrorMessage('name')}}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="col-sm-6">
+    <mat-label>Order #</mat-label>
+    <input matInput type="number" min="0" placeholder="e.g. 1" name="orderNo" formControlName="orderNo" required>
+    <mat-error *ngIf="getOrderNo!.invalid">{{getErrorMessage('orderNo')}}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="col-sm-12 mt-2">
+    <mat-label>Description</mat-label>
+    <textarea matInput placeholder="Give a brief description of the Service" maxlength="240" rows="4"
+      formControlName="description" name="description"></textarea>
+  </mat-form-field>
+
+  <mat-label class="ml-3">
+    <mat-slide-toggle color="primary" formControlName="mandatory" (change)="setMandatory($event.checked)">
+      {{messageOptional}}
+    </mat-slide-toggle>
+  </mat-label>
+
+  <mat-label class="float-right mr-3">
+    <mat-slide-toggle color="primary" formControlName="isActive" (change)="setActive($event.checked)">
+      {{message}}
+    </mat-slide-toggle>
+  </mat-label>
+
+</form>

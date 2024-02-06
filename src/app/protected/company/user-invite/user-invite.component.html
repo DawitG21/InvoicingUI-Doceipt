@@ -1,0 +1,59 @@
+<div>
+  <button mat-button color="primary" class="float-right mt-2" (click)="create()" (disabled)="disableBtn">Invite</button>
+  <h3 mat-dialog-title>Invite User</h3>
+</div>
+
+<mat-divider></mat-divider>
+
+<div mat-dialog-content class="mt-2">
+
+  <form id="form" [formGroup]="form">
+    <mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+
+    <mat-form-field appearance="outline" class="col-sm-12">
+      <mat-label>Email</mat-label>
+      <input matInput placeholder="e.g john@domain.com" formControlName="username" required>
+      <mat-error *ngIf="getUserName!.invalid">{{getErrorMessage('username')}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-sm-12">
+      <mat-select placeholder="Roles" formControlName="roles" multiple>
+        <mat-select-trigger>
+          {{getRoleText}}
+          <span *ngIf="getRoles!.value?.length > 1" class="example-additional-selection">
+            ({{getRolesConcat}})
+          </span>
+        </mat-select-trigger>
+        <ng-container *ngFor="let role of roles">
+          <mat-option [value]="role">
+            {{role.name}}
+          </mat-option>
+        </ng-container>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-sm-12">
+      <mat-select placeholder="Branches" formControlName="branches" multiple>
+        <mat-select-trigger>
+          {{getBranchText}}
+          <span *ngIf="getBranches!.value?.length > 1" class="example-additional-selection">
+            ({{getBranchConcat}})
+          </span>
+        </mat-select-trigger>
+        <ng-container *ngFor="let branch of branches">
+          <mat-option [value]="branch" *ngIf="branch.isActive">
+            {{branch.name}}
+          </mat-option>
+        </ng-container>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-label class="col-sm-12">
+      <mat-slide-toggle color="primary" class="mb-4" (change)="setOwner($event.checked)" formControlName="isOwner">
+        {{message}}
+      </mat-slide-toggle>
+    </mat-label>
+
+  </form>
+
+</div>

@@ -1,0 +1,69 @@
+.btn-ribbon {
+  width: 65px;
+  height: 63px;
+  margin-top: -40px;
+  margin-right: 20px;
+  float: right;
+  background-color: #343a40;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+mat-label {
+  color: #ffffff;
+}
+
+.toolbar-drawer-caret {
+  font-size: 50px;
+  position: relative;
+  top: 20px;
+  left: 6px;
+}
+
+.btn-background {
+  background-color: blueviolet;
+}
+
+.text {
+  color: #000000;
+}
+
+.title-Invoice {
+  font-size: 18px;
+  color: blueviolet;
+}
+
+.white {
+  color: white;
+}
+
+#formSearchInvoice::ng-deep.mat-focused .mat-form-field-label {
+  /*change color of label*/
+  color: white !important;
+}
+
+#formSearchInvoice::ng-deep.mat-select-value {
+  color: white;
+}
+
+#formSearchInvoice::ng-deep.mat-select-arrow {
+  color: white;
+}
+
+#formSearchInvoice::ng-deep.mat-form-field-underline {
+  /*change color of underline*/
+  background-color: white !important;
+}
+
+#formSearchInvoice::ng-deep.mat-form-field-ripple {
+  /*change color of underline when focused*/
+  background-color: white !important;
+}
+
+#formSearchInvoice::placeholder {
+  color: white;
+}
+
+#formSearchInvoice::ng-deep.mat-form-field-appearance-fill .mat-form-field-flex {
+  background-color: white;
+}

@@ -1,0 +1,77 @@
+<div class="main-content">
+    <div class="content-toolbar">
+
+        <button mat-button color="primary" (click)="goBack()">
+            <mat-icon aria-hidden="false" aria-label="keyboard_arrow_left icon">keyboard_arrow_left</mat-icon>Edit
+            Connector
+        </button>
+
+        <button mat-button color="primary" class="float-right ml-1" [disabled]="saveStatus" (click)="save()">
+            Save
+        </button>
+
+    </div>
+</div>
+
+<mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+<form class="mt-4" *ngIf="model" [formGroup]="form">
+
+    <mat-form-field appearance="outline" class="col-sm-6">
+        <mat-label>Name</mat-label>
+        <input type="text" matInput formControlName="name" required placeholder="e.g Ebirr Connector" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-sm-12">
+        <mat-label>Description</mat-label>
+        <textarea matInput placeholder="A brief description of the connector" formControlName="description"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-sm-6">
+        <mat-label>Provider</mat-label>
+        <mat-select [formControl]="providerForm">
+            <mat-option (click)="deselectProvider()">--None--</mat-option>
+            <ng-container *ngFor="let provider of providers">
+                <ng-container>
+                    <mat-option [value]="provider.id">
+                        {{provider.name}}
+                    </mat-option>
+                </ng-container>
+            </ng-container>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-sm-6">
+        <mat-label>Search Payment Method</mat-label>
+        <input type="text" placeholder="Payment method" matInput [formControl]="paymentMethodForm"
+            [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let pym of PaymentMethods" [value]="pym.name">
+                {{pym.name}}
+            </mat-option>
+        </mat-autocomplete>
+        <mat-error *ngIf="paymentMethodForm!.invalid">Payment method donesn't exist</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-sm-6">
+        <mat-label>Domains</mat-label>
+        <input type="text" matInput formControlName="domains" required placeholder="e.g http://g.com;https://s.com" />
+        <mat-hint align="start">separated by comma, semicolon, or space</mat-hint>
+    </mat-form-field>
+
+    <mat-card class="example-card ml-2">
+        <mat-card-header>
+            <mat-card-title>Flags</mat-card-title>
+            <mat-card-subtitle>assign at least one flag to the connector</mat-card-subtitle>
+        </mat-card-header>
+        <ng-container *ngIf="flags">
+            <mat-card-content *ngFor="let flag of flags">
+                <mat-checkbox class="ml-3" [checked]="getCheckedValue(flag)" [value]="flag"
+                    (change)="onCheckChange($event)" color="primary">
+                    <mat-label>{{flag.name}}</mat-label><br>
+                    <mat-label class="text-muted">{{flag.description}}</mat-label>
+                </mat-checkbox>
+            </mat-card-content>
+        </ng-container>
+    </mat-card>
+
+</form>

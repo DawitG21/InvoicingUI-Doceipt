@@ -1,0 +1,262 @@
+<button class="btn-background" mat-button [useExistingCss]="true" printSectionId="print-receipt-section" ngxPrint>
+    <mat-icon title="Print Receipt">print</mat-icon>&nbsp;Print
+</button>
+
+<mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+<div mat-dialog-content id="print-receipt-section">
+
+    <mat-label>
+        <img class="logo-invoice" [src]="logoUrl">
+        <mat-label class="float-right">
+            <b>Invoice|Receipt|Attachment</b>
+        </mat-label>
+    </mat-label>
+    <mat-divider></mat-divider>
+
+    <div class="mt-2" *ngIf="receipt">
+        <div class="row row-size">
+            <div class="row ml-4 row-size mb-4">
+
+                <div class="col-sm-8 row-size" *ngIf="company">
+                    <mat-label class="title-Receipt">{{ company.displayName }}</mat-label><br>
+                    <mat-label *ngIf="company.companyDetail && company.companyDetail.tin">Tin
+                        {{ company.companyDetail.tin }}</mat-label><br>
+                    <mat-label *ngIf="company.companyDetail && company.companyDetail.addressLine1">
+                        {{ company.companyDetail.addressLine1 }}</mat-label><br>
+                    <mat-label
+                        *ngIf="company.companyDetail && company.companyDetail.dialingCode && company.companyDetail.phone">
+                        +{{ company.companyDetail.dialingCode }}- {{ company.companyDetail.phone }}</mat-label><br>
+                </div>
+
+                <div class="col-sm-4 row-size">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <mat-label class="title-Receipt">Branch:</mat-label><br>
+                        </div>
+                        <div class="col-sm-7">
+                            <mat-label>{{ receipt.message.invoice.customer.branch.name }}</mat-label><br>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <mat-label class="title-Receipt">Email:</mat-label><br>
+                        </div>
+                        <div class="col-sm-7">
+                            <mat-label *ngIf="receipt.message.invoice.customer.branch.email">
+                                {{ (receipt.message.invoice.customer.branch.email.length>23)?
+                                (receipt.message.invoice.customer.branch.email | slice:0:23)+'...':
+                                (receipt.message.invoice.customer.branch.email) }}
+                            </mat-label><br>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <mat-label class="title-Receipt">Address:</mat-label><br>
+                        </div>
+                        <div class="col-sm-7">
+                            <mat-label *ngIf="receipt.message.invoice.customer.branch">
+                                {{ receipt.message.invoice.customer.branch.addressLine1 }}</mat-label><br>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row ml-4 row-size mb-4">
+
+            <div class="col-sm-3 row-size">
+                <mat-label class="title-Receipt">Bill To</mat-label><br>
+                <mat-label>{{receipt.message.invoice.customer.name}}</mat-label><br>
+                <mat-label>{{receipt.message.invoice.customer.referenceId}}</mat-label><br>
+                <mat-label>{{receipt.message.invoice.customer.customerGroup.name}}</mat-label><br>
+            </div>
+
+            <div class="col-sm-5 row-size">
+                <mat-label class="title-Receipt">Ship To</mat-label><br>
+                <mat-label>{{receipt.message.invoice.customer.billingAddresses[0].contact.name}}</mat-label><br>
+
+                <mat-label *ngIf="receipt.message.invoice.customer.billingAddresses[0].primaryEmail">
+                    {{ (receipt.message.invoice.customer.billingAddresses[0].primaryEmail.length>23)?
+                    (receipt.message.invoice.customer.billingAddresses[0].primaryEmail | slice:0:23)+'...':
+                    (receipt.message.invoice.customer.billingAddresses[0].primaryEmail) }}
+                </mat-label><br>
+
+                <mat-label
+                    *ngIf="receipt.message.invoice.customer.billingAddresses[0].contact.phoneNumbers.length != 0">
+                    {{receipt.message.invoice.customer.billingAddresses[0].contact.phoneNumbers[0].dialingCode}}
+                    {{receipt.message.invoice.customer.billingAddresses[0].contact.phoneNumbers[0].phone}}
+                </mat-label><br>
+                <mat-label>{{receipt.message.invoice.customer.billingAddresses[0].relationship}}</mat-label>
+            </div>
+
+            <div class="col-sm-4 row-size">
+                <mat-label class="title-Receipt">Receipt Number: </mat-label>
+                <mat-label>{{receipt.message.invoice.receipts[0].receiptNumber}}</mat-label><br>
+                <mat-label class="title-Receipt">Receipt Date: </mat-label>
+                <mat-label>{{receipt.message.invoice.receipts[0].createdDate | date:'yyyy-MM-dd'}}</mat-label><br>
+                <mat-label class="title-Receipt">Machine Name: </mat-label>
+                <mat-label>{{receipt.message.invoice.receipts[0].machineName}}</mat-label><br>
+                <mat-label class="title-Receipt">Machine Number: </mat-label>
+                <mat-label>{{receipt.message.invoice.receipts[0].machineNo}}</mat-label><br>
+                <mat-label class="title-Receipt">FS Numberr: </mat-label>
+                <mat-label>{{receipt.message.invoice.receipts[0].fsNumber}}</mat-label><br>
+                <mat-label class="title-Receipt">Invoice Number: </mat-label>
+                <mat-label>{{receipt.message.invoice.invoiceNumber}}</mat-label><br>
+                <mat-label class="title-Receipt">Invoice Date: </mat-label>
+                <mat-label>{{receipt.message.invoice.invoiceDate | date:'yyyy-MM-dd'}}</mat-label><br>
+                <mat-label class="title-Receipt">Financial Period: </mat-label>
+                <mat-label>{{receipt.message.invoice.financialPeriod.name}}</mat-label><br>
+            </div>
+
+        </div>
+
+        <div class="list-service-fee">
+            <div class="row header-div mb-3">
+                <div class="col-sm-5">
+                    <label class="label-header">Service Item</label>
+                </div>
+                <div class="col-sm-3">
+                    <label class="label-header">Unit Price</label>
+                </div>
+                <div class="col-sm-1">
+                    <label class="label-header">Quantity</label>
+                </div>
+                <div class="col-sm-3">
+                    <label class="label-header float-right">Amount</label>
+                </div>
+            </div>
+
+            <ng-container *ngFor="let service of receiptPiped; let i = index">
+                <label class="title-Receipt">{{service.key}}</label>
+                <ng-container *ngFor="let serviceValue of service.value; let j = index">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <label>{{serviceValue.name}}</label>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>{{serviceValue.amount | number : '1.2-3'}}</label>
+                        </div>
+                        <div class="col-sm-1">
+                            <label>{{serviceValue.invoiceFee.quantity | number }}</label>
+                        </div>
+                        <div class="col-sm-3">
+                            <label class="float-right">{{serviceValue.amountAfterQuantity | number : '1.2-3'}}</label>
+                        </div>
+                    </div>
+
+                    <ng-container *ngIf="serviceValue.invoiceFee.discounts.length !== 0">
+                        <ng-container *ngFor="let discount of serviceValue.invoiceFee.discounts; let k = index">
+                            <div class="row ml-4">
+                                <div class="col-sm-3">
+                                </div>
+                                <div class="col-sm-2">
+                                    <label>Disc {{k+1}}</label>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label>{{serviceValue.invoiceFee.discounts[k]}}%</label>
+                                </div>
+                                <div class="col-sm-1">
+                                </div>
+                                <div class="col-sm-3">
+                                    <label>-{{serviceValue.invoiceFee.discountedAmounts[i] | number}}</label>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+
+                    <ng-container *ngIf="serviceValue.taxes.length !== 0">
+                        <ng-container *ngFor="let tax of serviceValue.taxes; let x = index">
+                            <div class="row ml-4">
+                                <div class="col-sm-2">
+                                </div>
+                                <div class="col-sm-3">
+                                    <label>{{serviceValue.taxes[x].tax.name}}</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="tax-percent">{{serviceValue.taxes[x].percentValue}}%</label>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label class="tax-value">{{serviceValue.netTaxes[x] | number}}</label>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+
+                </ng-container>
+
+                <hr class="hr">
+            </ng-container>
+
+            <!--  end serviceFee list data -->
+
+            <div class="sum-ServiceFee ml-3">
+                <div class="row ml-4">
+                    <div class="col-sm-8"></div>
+                    <div class="col-sm-4">
+
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <label class="title-Receipt">Subtotal</label>
+                            </div>
+                            <div class="col-sm-7">
+                                <label class="float-right title-Receipt">{{receipt.message.data[0].currency}}
+                                    {{subtotal | number : '1.2-3'}}</label>
+                            </div>
+                        </div>
+
+                        <div class="row" *ngIf="discount != 0">
+                            <div class="col-sm-6">
+                                <label>Discount</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="float-right">{{receipt.message.data[0].currency}}
+                                    {{discount | number : '1.2-3'}}</label>
+                            </div>
+                        </div>
+
+                        <div class="row" *ngIf="tax != 0">
+                            <div class="col-sm-6">
+                                <label class="title-Receipt">Tax</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="float-right title-Receipt">{{receipt.message.data[0].currency}}
+                                    {{tax | number : '1.2-3'}}</label>
+                            </div>
+                        </div>
+
+                        <div class="row" *ngIf="receipt.message.invoice.penalty">
+                            <div class="col-sm-6">
+                                <label class="title-Receipt">Penalty</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="float-right title-Receipt">{{receipt.message.data[0].currency}}
+                                    {{receipt.message.invoice.penalty.accrue}}</label>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3 pt-3 border border-bottom-0 border-left-0 border-right-0">
+                            <div class="col-sm-5">
+                                <label class="title-Receipt">Total</label>
+                            </div>
+                            <div class="col-sm-7">
+                                <label class="float-right title-Receipt"
+                                    *ngIf="isPenalty">{{receipt.message.data[0].currency}}
+                                    {{subtotal + receipt.message.invoice.penalty.accrue - discount | number :
+                                    '1.2-3'}}</label>
+                                <label class="float-right title-Receipt"
+                                    *ngIf="!isPenalty">{{receipt.message.data[0].currency}}
+                                    {{subtotal - discount | number : '1.2-3'}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div div class="watermark">
+            PAID
+        </div>
+    </div>
+</div>

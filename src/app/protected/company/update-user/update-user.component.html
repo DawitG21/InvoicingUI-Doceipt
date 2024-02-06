@@ -1,0 +1,107 @@
+<div class="main-content">
+    <div class="content-toolbar">
+
+        <button mat-button color="primary" (click)="goBack()">
+            <mat-icon aria-hidden="false" aria-label="keyboard_arrow_left icon">keyboard_arrow_left</mat-icon>Manage
+            User
+        </button>
+
+        <button mat-button color="primary" class="float-right ml-1" (click)="save()">
+            Save
+        </button>
+
+        <button mat-button color="primary" class="float-right ml-1"
+            *ngIf="claims.doceipt_user_isPrincipalOwner && !model.isPrincipalOwner"
+            (click)="openConfirmationDialog(model)">
+            Make Principal Owner
+        </button>
+
+    </div>
+</div>
+
+<form id="f" class="mt-4" [formGroup]="form" *ngIf="claims.doceipt_user_isOwner && !model.isOwner">
+    <mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+
+    <mat-label class="ml-1">Assign {{model.name}} to branches</mat-label><br>
+    <mat-form-field class="ml-1 w-25 mt-3">
+        <mat-select placeholder="Branches" required formControlName="branches" multiple>
+            <mat-select-trigger>
+                {{getBranchText}}
+                <span *ngIf="getBranches!.value?.length > 1" class="example-additional-selection">
+                    ({{getBranchConcat}})
+                </span>
+            </mat-select-trigger>
+            <ng-container *ngFor="let branch of branches">
+                <mat-option [value]="branch" *ngIf="branch.isActive">
+                    {{branch.name}}
+                </mat-option>
+            </ng-container>
+        </mat-select>
+    </mat-form-field>
+
+</form>
+
+<div class="main-content mt-3" *ngIf="claims.doceipt_user_isOwner && !model.isOwner">
+    <h5>Branches</h5>
+    <p>
+        <small class="text-muted">List of branches <b>{{model.name}}</b> is assigned to.</small>
+    </p>
+
+    <div class="w-100 mt-4">
+        <mat-chip-list #chipList>
+            <mat-chip *ngFor="let branch of model.branches" [removable]="removable"
+                (removed)="openDeleteDialog(branch)">
+                {{branch.name}}
+                <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+        </mat-chip-list>
+    </div>
+
+</div>
+
+<div class="main-content mt-3" *ngIf="claims.doceipt_user_isOwner && !model.isOwner && userRoles.length > 0">
+    <h5>Roles</h5>
+    <p>
+        <small class="text-muted">List of roles <b>{{model.name}}</b> is assigned to.</small>
+    </p>
+
+    <div class="w-100 mt-4">
+        <mat-chip-list #chipList>
+            <mat-chip *ngFor="let role of userRoles">
+                {{role.name}}
+            </mat-chip>
+        </mat-chip-list>
+    </div>
+
+</div>
+
+<div class="main-content mt-3" *ngIf="claims.doceipt_user_isPrincipalOwner && !model.isOwner">
+    <h5>Make Owner</h5>
+    <p>
+        <small class="text-muted">
+            Assign {{model.name}} as Owner. an owner have full access and privilege to the system and the company
+            account.
+        </small>
+    </p>
+    <p>
+        <small class="text-muted">including creating invoices, payments, reports, reciepts etc...</small>
+    </p>
+    <button mat-raised-button color="primary" aria-label="Account Principal" (click)="openDialog(model, 'add')">
+        <mat-icon>person_pin</mat-icon> Assign as Owner
+    </button>
+</div>
+
+<div class="main-content mt-3" *ngIf="claims.doceipt_user_isPrincipalOwner && model.isOwner">
+    <h5>Remove Owner</h5>
+    <p>
+        <small class="text-muted">Remove {{model.name}} as Owner. the user account will be chaged to guest
+            account.</small>
+    </p>
+    <p>
+        <small class="text-muted">i.e an owner have full access and privilege to the system and the company
+            account.</small>
+    </p>
+    <button mat-raised-button color="primary" aria-label="Account Principal" (click)="openDialog(model, 'remove')">
+        <mat-icon>person_pin</mat-icon> Remove as Owner
+    </button>
+</div>

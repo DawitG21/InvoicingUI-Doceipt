@@ -1,0 +1,803 @@
+@import "styles.common-variables.scss";
+
+.toolbar-drawer-caret {
+  font-size: 50px !important;
+  position: relative;
+  top: 20px;
+  left: 6px;
+}
+
+.btn-ribbon {
+  width: 65px;
+  height: 63px;
+  margin-top: -40px;
+  margin-right: 20px;
+  float: right;
+  background-color: #343a40;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.logo {
+  width: 50px;
+}
+
+.logo-payment {
+  width: 200px;
+}
+
+.logo-invoice {
+  width: 50px;
+}
+
+.hr-top-break {
+  border-top: 1px solid lightgray;
+}
+
+.card.card-btn {
+  cursor: pointer;
+}
+
+.card.card-btn:hover {
+  box-shadow: inset 1px 1px 10px $app-theme;
+}
+
+.card-content {
+  display: inline-block;
+  vertical-align: text-top;
+}
+
+.input {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  width: 35%;
+  float: left;
+  height: 1% !important;
+}
+
+.tele {
+  margin-left: -107px;
+  margin-top: -106px;
+}
+
+fieldset {
+  display: block;
+  clear: both;
+  margin: 5px 0px;
+}
+
+input.fieldname {
+  float: left;
+  clear: left;
+  display: block;
+  margin: 5px;
+}
+
+select.fieldtype {
+  float: left;
+  display: block;
+  margin: 5px;
+}
+
+input.remove {
+  float: left;
+  display: block;
+  margin: 5px;
+}
+
+
+/* Input Field With Icons*/
+
+.input-field {
+  width: 100%;
+  padding: 10px;
+  outline: none;
+}
+
+.input-field:focus {
+  border: 2px solid dodgerblue;
+}
+
+#textareawidth {
+  width: 36%;
+}
+
+.table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.table tr:hover {
+  background-color: #fff;
+}
+
+.table th {
+  background-color: #2a3f54;
+  color: white;
+}
+
+
+/* endof common styles */
+
+
+/* Table Tooltips */
+
+th[data-tooltip] {
+  position: relative;
+}
+
+th[data-tooltip]::before,
+th[data-tooltip]::after {
+  position: absolute;
+  display: none;
+  opacity: 0.85;
+}
+
+th[data-tooltip]::before {
+  /*
+   * using data-tooltip instead of title so we 
+   * don't have the real tooltip overlapping
+   */
+  content: attr(data-tooltip);
+  background: rgb(17, 19, 20);
+  color: #fff;
+  font-size: 13px;
+  padding: 5px;
+  border-radius: 5px;
+  /* we don't want the text to wrap */
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+th[data-tooltip]::after {
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  content: "";
+}
+
+th[data-tooltip]:hover::before,
+th[data-tooltip]:hover::after {
+  display: block;
+}
+
+
+/* top tooltip */
+
+th[data-tooltip][data-placement="top"]::before {
+  bottom: 100%;
+  left: 0;
+  margin-bottom: 10px;
+}
+
+th[data-tooltip][data-placement="top"]::after {
+  border-top-color: #000;
+  border-bottom: none;
+  bottom: 100%;
+  left: 10px;
+  margin-bottom: 4px;
+}
+
+.show-dropdown {
+  width: 1000px;
+  margin-left: -105px;
+  margin-top: 4px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  z-index: 1000;
+}
+
+
+/* Avatar */
+
+.items-list {
+  width: 65%;
+  margin-left: 17%;
+  border: none;
+  border-bottom: 1px solid rgb(214, 214, 214);
+  cursor: pointer;
+}
+
+.items-list:hover {
+  background-color: rgb(214, 214, 214);
+}
+
+.avatar-logo {
+  width: 15%;
+  height: 100%;
+  padding-top: 20px;
+  padding-left: 4%;
+  float: left;
+}
+
+.invocie-modal {
+  width: 840px !important;
+  margin-left: -115px !important;
+}
+
+.invoice-search-body {
+  width: 85%;
+  float: left;
+  margin-left: 17%;
+  margin-top: -65px;
+}
+
+.cursor {
+  cursor: pointer;
+}
+
+.red-warning {
+  color: red;
+}
+
+
+.btn:hover {
+  opacity: 1;
+}
+
+.input-container {
+  display: -ms-flexbox;
+  /* IE10 */
+  display: flex;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.icon {
+  padding: 10px;
+  background: dodgerblue;
+  color: white;
+  min-width: 50px;
+  text-align: center;
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px;
+  outline: none;
+}
+
+.input-field:focus {
+  border: 2px solid dodgerblue;
+}
+
+
+/* Set a style for the submit button */
+
+.formstyle {
+  max-width: 500px;
+  margin: auto;
+  margin-top: 12%;
+  margin-right: 40%;
+}
+
+.headertext {
+  text-align: center;
+  margin-bottom: 5%;
+}
+
+
+/* Hover tooltips */
+
+.field-tip {
+  position: relative;
+  cursor: help;
+}
+
+.field-tip .tip-content {
+  position: absolute;
+  /*   top: 20px; */
+  /* - top padding */
+  right: 9999px;
+  width: 300px;
+  margin-right: -300px;
+  /* width + left/right padding */
+  padding: 10px;
+  color: #fff;
+  background: #333;
+  -webkit-box-shadow: 2px 2px 5px #aaa;
+  -moz-box-shadow: 2px 2px 5px #aaa;
+  box-shadow: 2px 2px 5px #aaa;
+  opacity: 0;
+  -webkit-transition: opacity 250ms ease-out;
+  -moz-transition: opacity 250ms ease-out;
+  -ms-transition: opacity 250ms ease-out;
+  -o-transition: opacity 250ms ease-out;
+  transition: opacity 250ms ease-out;
+}
+
+
+/*Tooltips*/
+
+.field-tip .tip-content:before {
+  content: " ";
+  /* Must have content to display */
+  position: absolute;
+  top: 50%;
+  left: -16px;
+  /* 2 x border width */
+  width: 0;
+  height: 0;
+  margin-top: -8px;
+  /* - border width */
+  border: 8px solid transparent;
+  border-right-color: #333;
+}
+
+.field-tip:hover .tip-content {
+  right: -20px;
+  opacity: 1;
+}
+
+
+/*For Toggle*/
+
+div.checkbox.switcher label,
+div.radio.switcher label {
+  padding: 0;
+}
+
+div.checkbox.switcher label *,
+div.radio.switcher label * {
+  vertical-align: middle;
+}
+
+div.checkbox.switcher label input,
+div.radio.switcher label input {
+  display: none;
+}
+
+div.checkbox.switcher label input+span,
+div.radio.switcher label input+span {
+  position: relative;
+  display: inline-block;
+  margin-right: 10px;
+  width: 56px;
+  height: 28px;
+  background: #f2f2f2;
+  border: 1px solid #eee;
+  border-radius: 50px;
+  transition: all 0.3s ease-in-out;
+}
+
+div.checkbox.switcher label input+span small,
+div.radio.switcher label input+span small {
+  position: absolute;
+  display: block;
+  width: 50%;
+  height: 100%;
+  background: #fff;
+  border-radius: 50%;
+  transition: all 0.3s ease-in-out;
+  left: 0;
+}
+
+div.checkbox.switcher label input:checked+span,
+div.radio.switcher label input:checked+span {
+  background: #269bff;
+  border-color: #269bff;
+}
+
+div.checkbox.switcher label input:checked+span small,
+div.radio.switcher label input:checked+span small {
+  left: 50%;
+}
+
+$sidebarWidth: 250;
+$sidebarLeft: -180;
+
+.content-right {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  -webkit-transition: left 1s;
+  transition: left 1s;
+  flex: 1;
+}
+
+.content-right.sidebar-minimized {
+  left: #{$sidebarWidth + $sidebarLeft}px;
+}
+
+.content-right.sidebar-expanded {
+  left: #{$sidebarWidth}px;
+}
+
+.sidebar-wr {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: #{$sidebarWidth}px;
+  overflow: hidden;
+  -webkit-transition: left 1s;
+  transition: left 1s;
+  flex: 1;
+}
+
+.sidebar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  overflow-y: auto;
+  color: #fff;
+  background: #49497a;
+  box-sizing: border-box;
+  height: inherit;
+  display: block;
+}
+
+.left-aligned {
+  float: left;
+}
+
+.sidebar-minimized {
+  left: #{$sidebarLeft}px;
+}
+
+.sidebar-expanded {
+  left: 0px;
+}
+
+#navbar-toggle {
+  cursor: pointer;
+}
+
+#toggleView {
+  margin-left: 44px;
+}
+
+.menu-icon {
+  float: right;
+}
+
+.sidebar-nav {
+  display: block;
+  float: left;
+  width: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar-nav li a {
+  padding-left: 20px;
+  font-size: 16px;
+  text-decoration: none;
+  color: #fff;
+  float: left;
+  text-decoration: none;
+  width: 100%;
+  height: 70px;
+  line-height: 25px;
+  padding: 20px;
+  vertical-align: center;
+}
+
+.sidebar-nav li a:hover {
+  background: #121213;
+  -webkit-transition: background 0.3s;
+  transition: background 0.3s;
+}
+
+
+/* Dropdown */
+
+.dropdown {
+  display: inline-block;
+  position: absolute;
+}
+
+.dd-button {
+  display: inline-block;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.dd-button:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid black;
+}
+
+.dd-input {
+  display: none;
+}
+
+.dd-menu {
+  position: absolute;
+  top: 100%;
+  border: 1px solid #867979;
+  border-radius: 4px;
+  padding: 0;
+  margin: 2px 0 0 0;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.1);
+  background-color: #213033;
+  list-style-type: none;
+}
+
+.dd-input+.dd-menu {
+  display: none;
+}
+
+.dd-input:checked+.dd-menu {
+  display: block;
+}
+
+.dd-menu li {
+  padding: 10px 20px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.dd-menu li:hover {
+  background-color: #656d9b;
+}
+
+.dd-menu li a {
+  display: block;
+  margin: -10px -20px;
+  padding: 10px 20px;
+  display: inline-block;
+}
+
+.dd-menu li.divider {
+  padding: 0;
+  border-bottom: 1px solid #cccccc;
+}
+
+.dropdown-el {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  text-align: left;
+  white-space: nowrap;
+  color: #fff;
+  outline: none;
+  border: 0.06em solid transparent;
+  border-radius: 1em;
+  background-color: #222;
+  transition: 0.3s all ease-in-out;
+}
+
+.dropdown-el input:focus+label {
+  background: #def;
+}
+
+.dropdown-el input {
+  width: 1px;
+  height: 1px;
+  display: inline-block;
+  position: absolute;
+  opacity: 0.01;
+}
+
+.dropdown-el label {
+  border-top: 0.06em solid #d9d9d9;
+  display: block;
+  height: 2em;
+  line-height: 2em;
+  padding-left: 1em;
+  padding-right: 3em;
+  cursor: pointer;
+  position: relative;
+  transition: 0.3s color ease-in-out;
+}
+
+.dropdown-el label:nth-child(2) {
+  margin-top: 2em;
+  border-top: 0.06em solid #d9d9d9;
+}
+
+.dropdown-el input:checked+label {
+  display: block;
+  border-top: none;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.dropdown-el input:checked+label:nth-child(2) {
+  margin-top: 0;
+  position: relative;
+}
+
+.dropdown-el.expanded label {
+  border-top: 0.06em solid #d9d9d9;
+}
+
+.dropdown-el.expanded label:hover {
+  color: #3694d7;
+}
+
+.dropdown-el.expanded input:checked+label {
+  color: #3694d7;
+}
+
+.dropdown-el.expanded::after {
+  transform: rotate(-180deg);
+  top: 0.55em;
+}
+
+.boxstyle {
+  word-wrap: normal;
+  padding: 4px;
+  margin-left: 10px;
+}
+
+section.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 998;
+}
+
+section.modalWindow {
+  display: none;
+  position: fixed;
+  top: 9%;
+  left: 50%;
+  z-index: 999 !important;
+  width: 600px;
+  min-height: 200px;
+  margin-left: -300px;
+  background: #fff;
+  cursor: default;
+  height: 25px;
+}
+
+section.modal.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 997;
+  cursor: pointer;
+}
+
+section.modalWindow section.modalWrapper {
+  margin: 30px;
+  border: 1px solid #dadada;
+  padding: 15px;
+  text-align: left;
+  line-height: 20px !important;
+  height: 140px;
+}
+
+.closeBtn {
+  position: absolute;
+  right: 10px;
+  top: 6px;
+  cursor: pointer;
+}
+
+#companyform {
+  margin-left: 15px;
+}
+
+.div-logo {
+  margin-top: 30px;
+}
+
+.app-logo {
+  width: 17%;
+  margin-left: 4%;
+}
+
+@media only screen and (max-width : 900px) {
+  .content-right {
+    left: 0 px;
+  }
+}
+
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+  /* Styles */
+}
+
+/* Smartphones (landscape) ----------- */
+@media only screen and (min-width : 321px) {
+  /* Styles */
+}
+
+/* Smartphones (portrait) ----------- */
+@media only screen and (max-width : 320px) {
+  /* Styles */
+}
+
+/* iPhone 4 ----------- */
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) and (orientation : landscape) and (-webkit-min-device-pixel-ratio : 2) {
+  /* Styles */
+}
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) and (orientation : portrait) and (-webkit-min-device-pixel-ratio : 2) {
+  /* Styles */
+}
+
+/* iPhone 5 ----------- */
+@media only screen and (min-device-width: 320px) and (max-device-height: 568px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 2) {
+  /* Styles */
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-height: 568px) and (orientation : portrait) and (-webkit-device-pixel-ratio: 2) {
+  /* Styles */
+}
+
+/* iPhone 6, 7, 8 ----------- */
+@media only screen and (min-device-width: 375px) and (max-device-height: 667px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 2) {
+  /* Styles */
+}
+
+@media only screen and (min-device-width: 375px) and (max-device-height: 667px) and (orientation : portrait) and (-webkit-device-pixel-ratio: 2) {
+  /* Styles */
+}
+
+/* iPhone 6+, 7+, 8+ ----------- */
+@media only screen and (min-device-width: 414px) and (max-device-height: 736px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 2) {
+  /* Styles */
+}
+
+@media only screen and (min-device-width: 414px) and (max-device-height: 736px) and (orientation : portrait) and (-webkit-device-pixel-ratio: 2) {
+  /* Styles */
+}
+
+/* iPhone X ----------- */
+@media only screen and (min-device-width: 375px) and (max-device-height: 812px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 3) {
+  /* Styles */
+}
+
+@media only screen and (min-device-width: 375px) and (max-device-height: 812px) and (orientation : portrait) and (-webkit-device-pixel-ratio: 3) {
+  /* Styles */
+}
+
+/* iPhone XS Max, XR ----------- */
+@media only screen and (min-device-width: 414px) and (max-device-height: 896px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 3) {
+  /* Styles */
+}
+
+@media only screen and (min-device-width: 414px) and (max-device-height: 896px) and (orientation : portrait) and (-webkit-device-pixel-ratio: 3) {
+  /* Styles */
+}
+
+/* Samsung Galaxy S3 ----------- */
+@media only screen and (min-device-width: 320px) and (max-device-height: 640px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 2) {
+  /* Styles */
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-height: 640px) and (orientation : portrait) and (-webkit-device-pixel-ratio: 2) {
+  /* Styles */
+}
+
+/* Samsung Galaxy S4 ----------- */
+@media only screen and (min-device-width: 320px) and (max-device-height: 640px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 3) {
+  /* Styles */
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-height: 640px) and (orientation : portrait) and (-webkit-device-pixel-ratio: 3) {
+  /* Styles */
+}
+
+/* Samsung Galaxy S5 ----------- */
+@media only screen and (min-device-width: 360px) and (max-device-height: 640px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 3) {
+  /* Styles */
+}
+
+@media only screen and (min-device-width: 360px) and (max-device-height: 640px) and (orientation : portrait) and (-webkit-device-pixel-ratio: 3) {
+  /* Styles */
+}

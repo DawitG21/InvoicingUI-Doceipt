@@ -1,0 +1,41 @@
+<div mat-dialog-title>
+    <h1 mat-dialog-title class="ml-3">Search</h1>
+    <form id="formcustomersearch" [formGroup]="form">
+
+        <mat-form-field color="primary" appearance="outline" mat-dialog-title class="col-sm-12">
+            <mat-label class="purple">Customer Group</mat-label>
+            <input color="primary" matInput formControlName="searchText">
+            <button color="primary" mat-button matSuffix mat-icon-button aria-label="Search" (click)="search()">
+                <mat-icon>search</mat-icon>
+            </button>
+        </mat-form-field>
+
+    </form>
+</div>
+<mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+
+<div mat-dialog-content class="mt-3">
+
+    <ng-container *ngFor="let pg of searchResult; let i = index">
+        <div class="card card-btn border border-0" (click)="select(pg)">
+            <div class="row no-gutters">
+                <div class="col">
+                    <div class="card-body">
+                        <div class="card-content">
+                            <ngx-avatar name="{{ (pg.name.length > 20) ? (pg.name | slice:0:20) : pg.name }}" fgColor="white" [size]="50" [textSizeRatio]="2.5"
+                                [round]="true">
+                            </ngx-avatar>
+                        </div>
+
+                        <div class="card-content pl-4">
+                            <h5 class="card-title">{{ (pg.name.length > 35) ? (pg.name | slice:0:35) + '...' : pg.name }}</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+    <mat-paginator [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="pageEvent($event)"
+        showFirstLastButtons>
+    </mat-paginator>
+</div>

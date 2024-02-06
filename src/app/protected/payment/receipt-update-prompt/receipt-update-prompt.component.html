@@ -1,0 +1,48 @@
+<div>
+    <button mat-button color="primary" class="mt-0 float-right" [disabled]="saveStatus" (click)="updateReceipt()">
+        Save
+    </button>
+    <h3 mat-dialog-title>Receipt Update</h3>
+</div>
+
+<mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+<div mat-dialog-content>
+    <div class="container">
+
+        <form id="f" class="mt-4" *ngIf="model" [formGroup]="form">
+            <div class="row">
+
+                <mat-form-field appearance="outline" class="col">
+                    <mat-label>FS Number</mat-label>
+                    <input matInput type="text" formControlName="fsNumber" placeholder="Enter POS/FS Number"
+                        aria-label="POS/FS Number" aria-describedby="basic-addon2" required>
+                </mat-form-field>
+
+                <ng-container *ngIf="invoiceObj.message.machines && invoiceObj.message.machines.length > 0">
+                    <mat-form-field appearance="outline" class="col">
+                        <mat-label>Machine</mat-label>
+                        <mat-select formControlName="machine">
+                            <ng-container *ngFor="let m of invoiceObj.message.machines">
+                                <ng-container *ngIf="m.isActive">
+                                    <mat-option [value]="m">
+                                        {{m.name}}
+                                    </mat-option>
+                                </ng-container>
+                            </ng-container>
+                        </mat-select>
+                    </mat-form-field>
+                </ng-container>
+
+            </div>
+
+            <div class="row">
+                <mat-form-field appearance="outline" class="col-sm-12">
+                    <mat-label>Remark</mat-label>
+                    <textarea matInput formControlName="remark" placeholder="Give a brief description of the remark"
+                        maxlength="240" rows="4"></textarea>
+                </mat-form-field>
+            </div>
+        </form>
+
+    </div>
+</div>

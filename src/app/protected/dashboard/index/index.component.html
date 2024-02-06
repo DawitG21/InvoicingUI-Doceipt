@@ -1,0 +1,105 @@
+<div class="main-content">
+  <div class="content-toolbar content-toolbar-visible">
+  </div>
+  <mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+  <br>
+  <div class="main">
+    <div class="container">
+      <div class="row ml-1">
+
+
+        <div class="card text-white bg-secondary mb-3 col-sm-3" (click)="goToCustomerGroup()">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-8">
+                <h2 class="card-text">{{customerGroups}}</h2>
+                <h5 class="card-text">Groups</h5>
+              </div>
+              <div class="col-sm-4">
+                <mat-icon class="h1 display-3" aria-hidden="false" aria-label="groups icon">groups
+                </mat-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-1"></div>
+
+        <div class="card text-white bg-info mb-3 col-sm-3" (click)="goToCustomer()">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-8">
+                <h2 class="card-text">{{customers}}</h2>
+                <h5 class="card-text">Customers</h5>
+              </div>
+              <div class="col-sm-4">
+                <mat-icon class="h1 display-3" aria-hidden="false" aria-label="person icon">person
+                </mat-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-1"></div>
+
+        <div class="card text-white bg-dark mb-3 col-sm-3" (click)="goToInvoice()">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-8">
+                <h2 class="card-text">{{invoices}}</h2>
+                <h5 class="card-text">Invoices</h5>
+              </div>
+              <div class="col-sm-4">
+                <mat-icon class="h1 display-3" aria-hidden="false" aria-label="receipt icon">receipt
+                </mat-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="chart-container">
+            <canvas id="MyChart">{{ chart }}</canvas>
+          </div>
+        </div>
+        
+        <div class="col-sm-6 mt-5">
+          <mat-label>Users</mat-label>
+          <a routerLink="/protected/company/manage-org" class="float-right mr-2">See All</a>
+          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-100 mt-3">
+
+            <ng-container matColumnDef="orderNo">
+                <th mat-header-cell *matHeaderCellDef> No. </th>
+                <td mat-cell *matCellDef="let element; let i = index;"> {{i+1}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef> Email </th>
+                <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="isOwner">
+                <th mat-header-cell *matHeaderCellDef> Type </th>
+                <td mat-cell *matCellDef="let element">
+                    <mat-chip-list>
+                        <mat-chip *ngIf="element.isOwner" color="primary" selected>Owner</mat-chip>
+                        <mat-chip *ngIf="!element.isOwner" color="accent" selected>User</mat-chip>
+                    </mat-chip-list>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        </div>
+      </div>
+    </div>
+  </div>

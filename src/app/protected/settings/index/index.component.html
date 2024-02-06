@@ -1,0 +1,126 @@
+<div class="main-content">
+  <div class="content-toolbar">
+    <p class="toolbar-title">Settings</p>
+
+  </div>
+</div>
+
+<div class="main-content">
+  <mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+
+  <!-- Connector Table -->
+  <div class="mt-4" *ngIf="claims && claims.doceipt_claim_connector_access">
+    <label mat-label>Connectors</label>
+
+    <button class="float-right mr-5" *ngIf="claims && claims.doceipt_claim_connector_create" mat-icon-button
+      color="primary" aria-label="Add connector" (click)="goAddConnector()">
+      <mat-icon>add</mat-icon>Connector
+    </button>
+
+    <table mat-table [dataSource]="dataSourceConnector" class="mat-elevation-z8 w-100 mt-3">
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef> Description </th>
+        <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions" stickyEnd>
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+          <mat-icon class="cursor-pointer ml-1" *ngIf="claims && claims.doceipt_user_isOwner"
+            (click)="renewApiKey(element.id)" title="Renew ApiKey">refresh
+          </mat-icon>
+          <mat-icon class="cursor-pointer ml-1" *ngIf="claims && claims.doceipt_claim_connector_create"
+            (click)="editConnector(element)" title="edit">edit
+          </mat-icon>
+          <mat-icon class="cursor-pointer ml-1" *ngIf="claims && claims.doceipt_claim_connector_delete"
+            (click)="openConnectorDeleteDialog(element)" title="Delete">
+            delete_outline
+          </mat-icon>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumnsConnector"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumnsConnector;"></tr>
+    </table>
+
+  </div>
+
+  <!-- Source table -->
+
+  <div class="mt-4" *ngIf="claims && claims.doceipt_claim_source_access">
+    <label mat-label>Sources</label>
+    <button class="float-right mr-5" mat-icon-button color="primary" aria-label="Add Source" (click)="goAddSource()"
+      *ngIf="claims && claims.doceipt_claim_source_create">
+      <mat-icon>add</mat-icon>Source
+    </button>
+
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-100 mt-3">
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="customerUrl">
+        <th mat-header-cell *matHeaderCellDef> Customer Url </th>
+        <td mat-cell *matCellDef="let element">
+          {{ (element.customerUrl.length>30)? 
+            (element.customerUrl | slice:0:30)+'...':
+            (element.customerUrl) }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="branchUrl">
+        <th mat-header-cell *matHeaderCellDef> Branch Url </th>
+        <td mat-cell *matCellDef="let element">
+          {{ (element.branchUrl.length>30)? 
+            (element.branchUrl | slice:0:30)+'...':
+            (element.branchUrl) }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="customerGroupUrl">
+        <th mat-header-cell *matHeaderCellDef> Customer Group Url </th>
+        <td mat-cell *matCellDef="let element">
+          {{ (element.customerGroupUrl.length>30)? 
+            (element.customerGroupUrl | slice:0:30)+'...':
+            (element.customerGroupUrl) }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="isActive">
+        <th mat-header-cell *matHeaderCellDef> Status </th>
+        <td mat-cell *matCellDef="let element">
+          <mat-chip-list>
+            <mat-chip *ngIf="element.isActive" color="primary" selected>Active</mat-chip>
+            <mat-chip *ngIf="!element.isActive" color="accent" selected>Inactive</mat-chip>
+          </mat-chip-list>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions" stickyEnd>
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+          <mat-icon class="cursor-pointer ml-1" (click)="edit(element)" title="edit"
+            *ngIf="claims && claims.doceipt_claim_source_create">
+            edit
+          </mat-icon>
+          <mat-icon class="cursor-pointer ml-1" (click)="openDeleteDialog(element)" title="Delete"
+            *ngIf="claims && claims.doceipt_claim_source_delete">
+            delete_outline
+          </mat-icon>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumnsSource"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumnsSource;"></tr>
+    </table>
+
+  </div>
+</div>
